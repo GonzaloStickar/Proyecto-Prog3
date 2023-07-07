@@ -1,3 +1,3 @@
 public interface AtaquePersonaje {
-    public void atacar();
+    public double atacar();
 }

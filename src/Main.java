@@ -10,12 +10,22 @@ public class Main {
         //archivo.eliminarContenidoLog();
 
 
+        //Genero personajes
+        //[0,1,0,2,1,2] (Dependiendo el número, se crea una clase diferente) (Para diferenciar y que sea aleatorio)
+        PersonajeHumano personajeHumano = new PersonajeHumano("pepe","pepito");
+        PersonajeOrco personajeOrco = new PersonajeOrco("orco","shrek");
+        PersonajeElfo personajeElfo = new PersonajeElfo("elfo","bosques");
+
+        System.out.println(personajeHumano.atacar());
+        System.out.println(personajeHumano.VA);
+        System.out.println(personajeHumano.ED);
+        System.out.println(personajeHumano.PDEF);
 
         HashSet<NombresApodos> nombresRandom = new HashSet<>(crearNombresApodos());
         HashSet<NombresApodos> apodosRandom = new HashSet<>(crearNombresApodos());
-        for (NombresApodos nombre : nombresRandom) {
-            System.out.println(nombre);
-        }
+//        for (NombresApodos nombre : nombresRandom) {
+//            System.out.println(nombre);
+//        }
     }
 
     public static HashSet<NombresApodos> crearNombresApodos() {
@@ -27,5 +37,9 @@ public class Main {
             hashSet.add(nombresApodos[random.nextInt(nombresApodos.length)]);
         }
         return hashSet;
+    }
+    public static int crearValorEntreRangoRandom(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min + 1) + min;
     }
 }

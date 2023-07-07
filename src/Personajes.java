@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public abstract class Personajes implements AtaquePersonaje {
+public abstract class Personajes {
 
     //Datos
     public String raza; // (humanos/orcos/elfos)
@@ -8,7 +8,7 @@ public abstract class Personajes implements AtaquePersonaje {
     public String apodo;
     public String fechaNacimiento;
     public int edad; //entre 0 a 300
-    public int salud; //100
+    public double salud; //100
 
     //Características
     public int velocidad;// 1 a 10
@@ -38,7 +38,7 @@ public abstract class Personajes implements AtaquePersonaje {
         this.apodo = apodo;
         this.fechaNacimiento = crearValorEntreRangoRandom(1, 30) + "/" + crearValorEntreRangoRandom(1, 12) + "/" + crearValorEntreRangoRandom(-2000, 2000) + "/";
         this.edad = crearValorEntreRangoRandom(0, 300);
-        this.salud = 100;
+        this.salud = 100.0;
         this.velocidad = crearValorEntreRangoRandom(1, 10);
         this.destreza = crearValorEntreRangoRandom(1, 5);
         this.fuerza = crearValorEntreRangoRandom(1, 10);
@@ -46,10 +46,12 @@ public abstract class Personajes implements AtaquePersonaje {
         this.armadura = crearValorEntreRangoRandom(1, 10);
         this.PD = this.destreza * this.fuerza * this.nivel;
         this.ED = crearValorEntreRangoRandom(1, 100);
-        System.out.println(PD);
-        System.out.println(ED);
         this.VA = this.PD * ED;
         this.PDEF = this.armadura * this.velocidad;
+    }
+
+    public void setSalud(double salud) {
+        this.salud = salud;
     }
 
     public static int crearValorEntreRangoRandom(int min, int max) {
