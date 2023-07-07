@@ -11,15 +11,21 @@ public class Main {
 
 
 
-
-        Random random = new Random();
-        NombresApodos[] nombresApodos = NombresApodos.values();
-        HashSet<NombresApodos> nombresRandom = new HashSet<>();
-        while (nombresRandom.size()<6) {
-            nombresRandom.add(nombresApodos[random.nextInt(nombresApodos.length)]);
-        }
+        HashSet<NombresApodos> nombresRandom = new HashSet<>(crearNombresApodos());
+        HashSet<NombresApodos> apodosRandom = new HashSet<>(crearNombresApodos());
         for (NombresApodos nombre : nombresRandom) {
             System.out.println(nombre);
         }
+    }
+
+    public static HashSet<NombresApodos> crearNombresApodos() {
+        NombresApodos[] nombresApodos = NombresApodos.values();
+        Random random = new Random();
+
+        HashSet<NombresApodos> hashSet = new HashSet<>();
+        while (hashSet.size()<6) {
+            hashSet.add(nombresApodos[random.nextInt(nombresApodos.length)]);
+        }
+        return hashSet;
     }
 }
