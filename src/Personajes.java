@@ -1,17 +1,59 @@
-public class Personajes {
+import java.util.Random;
+
+public abstract class Personajes implements AtaquePersonaje {
 
     //Datos
     public String raza; // (humanos/orcos/elfos)
     public String nombre;
     public String apodo;
     public String fechaNacimiento;
-    public int Edad; //entre 0 a 300
-    public int Salud; //100
+    public int edad; //entre 0 a 300
+    public int salud; //100
 
     //Características
     public int velocidad;// 1 a 10
     public int destreza; //1 a 5
     public int fuerza;//1 a 10
-    public int Nivel; //1 a 10
-    public int Armadura; //1 a 10
+    public int nivel; //1 a 10
+    public int armadura; //1 a 10
+
+    public double PD;
+    //Poder de Disparo
+    //Haga el producto de Destreza * Fuerza * Nivel del personaje que ataca.
+
+    public double ED;
+    //Efectividad de Disparo
+    //Genere un valor aleatorio de 1 a 100. Considerarlo como valor porcentual.
+
+    public double VA;
+    //Valor de Ataque
+    //Al Poder de Disparo lo multiplico por la Efectividad de Disparo.
+
+    public double PDEF;
+    //Poder de Defensa
+    //Haga el producto de Armadura * Velocidad del personaje que defiende.
+
+    public Personajes(String nombre, String apodo) {
+        this.nombre = nombre;
+        this.apodo = apodo;
+        this.fechaNacimiento = crearValorEntreRangoRandom(1, 30) + "/" + crearValorEntreRangoRandom(1, 12) + "/" + crearValorEntreRangoRandom(-2000, 2000) + "/";
+        this.edad = crearValorEntreRangoRandom(0, 300);
+        this.salud = 100;
+        this.velocidad = crearValorEntreRangoRandom(1, 10);
+        this.destreza = crearValorEntreRangoRandom(1, 5);
+        this.fuerza = crearValorEntreRangoRandom(1, 10);
+        this.nivel = crearValorEntreRangoRandom(1, 10);
+        this.armadura = crearValorEntreRangoRandom(1, 10);
+        this.PD = this.destreza * this.fuerza * this.nivel;
+        this.ED = crearValorEntreRangoRandom(1, 100);
+        System.out.println(PD);
+        System.out.println(ED);
+        this.VA = this.PD * ED;
+        this.PDEF = this.armadura * this.velocidad;
+    }
+
+    public static int crearValorEntreRangoRandom(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min + 1) + min;
+    }
 }
