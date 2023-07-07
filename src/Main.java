@@ -16,10 +16,15 @@ public class Main {
         PersonajeOrco personajeOrco = new PersonajeOrco("orco","shrek");
         PersonajeElfo personajeElfo = new PersonajeElfo("elfo","bosques");
 
-        System.out.println(personajeHumano.atacar());
-        System.out.println(personajeHumano.VA);
-        System.out.println(personajeHumano.ED);
-        System.out.println(personajeHumano.PDEF);
+
+
+        //Prueba
+        double ataque = personajeHumano.atacar();
+        if (ataque > 0 && ataque<=100) {
+            personajeOrco.setSalud(ataque);
+        }
+
+
 
         HashSet<NombresApodos> nombresRandom = new HashSet<>(crearNombresApodos());
         HashSet<NombresApodos> apodosRandom = new HashSet<>(crearNombresApodos());

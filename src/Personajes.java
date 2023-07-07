@@ -50,8 +50,8 @@ public abstract class Personajes {
         this.PDEF = this.armadura * this.velocidad;
     }
 
-    public void setSalud(double salud) {
-        this.salud = salud;
+    public void setSalud(double ataque) {
+        this.salud = this.salud - ataque;
     }
 
     public static int crearValorEntreRangoRandom(int min, int max) {
