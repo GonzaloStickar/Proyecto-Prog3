@@ -1,5 +1,5 @@
 public class PersonajeElfo extends Personajes implements AtaquePersonaje {
-    public PersonajeElfo(String nombre, String apodo) {
+    public PersonajeElfo(NombresApodos nombre, NombresApodos apodo) {
         super(nombre, apodo);
         this.raza = this.getClass().getName();
     }
@@ -9,6 +9,7 @@ public class PersonajeElfo extends Personajes implements AtaquePersonaje {
         //Fórmula Original (Da números muy grandes)
         //( ((VA*ED)-PDEF)/500)*100 ) * 1.05
 
+        //Puede que de números negativos, los cuales paso a positivos para que puedan restarse en la salud.
         return ((((this.VA/this.ED)-this.PDEF)/500.0)*100.0)*1.05;
     }
 }

@@ -4,8 +4,8 @@ public abstract class Personajes {
 
     //Datos
     public String raza; // (humanos/orcos/elfos)
-    public String nombre;
-    public String apodo;
+    public NombresApodos nombre;
+    public NombresApodos apodo;
     public String fechaNacimiento;
     public int edad; //entre 0 a 300
     public double salud; //100
@@ -33,7 +33,7 @@ public abstract class Personajes {
     //Poder de Defensa
     //Haga el producto de Armadura * Velocidad del personaje que defiende.
 
-    public Personajes(String nombre, String apodo) {
+    public Personajes(NombresApodos nombre, NombresApodos apodo) {
         this.nombre = nombre;
         this.apodo = apodo;
         this.fechaNacimiento = crearValorEntreRangoRandom(1, 30) + "/" + crearValorEntreRangoRandom(1, 12) + "/" + crearValorEntreRangoRandom(-2000, 2000) + "/";
@@ -51,7 +51,7 @@ public abstract class Personajes {
     }
 
     public void setSalud(double ataque) {
-        this.salud = this.salud - ataque;
+        this.salud = this.salud - (Math.abs(ataque));
     }
 
     public static int crearValorEntreRangoRandom(int min, int max) {
