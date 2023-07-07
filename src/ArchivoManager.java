@@ -44,4 +44,8 @@ public class ArchivoManager {
             System.out.println("Ocurrió un error al MOSTRAR el contenido del archivo.");
         }
     }
+
+    public void eliminarlog() {
+        log.delete();
+    }
 }

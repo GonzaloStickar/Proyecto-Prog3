@@ -3,12 +3,13 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
         ArchivoManager archivo = new ArchivoManager();
-        //archivo.aniadirTexto("hola");
+        archivo.aniadirTexto("hola");
         //archivo.mostrarContenidoLog();
         //archivo.eliminarContenidoLog();
-
+        //archivo.eliminarlog();
 
 
         //Genero NombresApodos
@@ -23,11 +24,37 @@ public class Main {
 //        personajeOrco.setSalud(personajeHumano.atacar());
 //        System.out.println(personajeOrco.salud);
 
-        ArrayList<Personajes> jugador1Personajes = new ArrayList<Personajes>(crearPersonajes(nombresRandom,apodosRandom));
-        ArrayList<Personajes> jugador2Personajes = new ArrayList<Personajes>(crearPersonajes(nombresRandom,apodosRandom));
+        boolean finalizar = false;
+        while (!finalizar) {
+            System.out.println();
+            System.out.println("1) Iniciar partida");
+            System.out.println("2) Iniciar partida e ingresar personajes a mano");
+            System.out.println("3) Leer todas las partidas jugadas");
+            System.out.println("4) Borrar partidas jugadas");
+            System.out.println("5) Borrar archivo de log");
+            System.out.println("0) Salir");
 
-        for (Personajes personaje : jugador1Personajes) {
-            System.out.println(personaje);
+            try {
+                System.out.print("Elija una de las opciones: ");
+                int opcion = scanner.nextInt();
+                switch (opcion) {
+                    case 1:
+                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom,apodosRandom));
+                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom,apodosRandom));
+
+                        ArrayList<Integer> ordenJuegoJugador1Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
+                        ArrayList<Integer> ordenJuegoJugador2Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
+
+                    case 2:
+                    case 3:
+
+                    case 0: finalizar=true;
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Ingresar solamente un número");
+                scanner.next();
+            }
         }
     }
 
@@ -66,5 +93,16 @@ public class Main {
             }
         }
         return personajesJugador;
+    }
+
+    public static ArrayList<Integer> crearListaOrdenRandomPersonajesJugadores() {
+        ArrayList<Integer> array = new ArrayList<>();
+        while (array.size()<3) {
+            int numero = crearNumeroEntreRangoRandom(0,2);
+            if (!array.contains(numero)) {
+                array.add(numero);
+            }
+        }
+        return array;
     }
 }

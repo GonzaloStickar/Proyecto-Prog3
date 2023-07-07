@@ -50,6 +50,8 @@ public abstract class Personajes {
         this.PDEF = this.armadura * this.velocidad;
     }
 
+
+
     public void setSalud(double ataque) {
         this.salud = this.salud - (Math.abs(ataque));
     }
