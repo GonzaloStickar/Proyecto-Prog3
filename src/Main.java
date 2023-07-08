@@ -9,10 +9,6 @@ public class Main {
         ArchivoManager archivo = new ArchivoManager();
         //archivo.aniadirTexto("hola");
 
-        //Genero NombresApodos
-        ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresApodos());
-        ArrayList<NombresApodos> apodosRandom = new ArrayList<>(crearNombresApodos());
-
         //Genero personajes
         //[0,1,0,2,1,2] (Dependiendo el número, se crea una clase diferente) (Para diferenciar y que sea aleatorio)
 
@@ -36,6 +32,10 @@ public class Main {
                 int opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1 -> {
+                        //Genero NombresApodos
+                        ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresRandom());
+                        ArrayList<NombresApodos> apodosRandom = new ArrayList<>(crearApodosRandom(nombresRandom));
+
                         ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
                         ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
 
@@ -57,7 +57,7 @@ public class Main {
                         ArrayList<Personajes> personajesIngresadoAManoP1 = new ArrayList<>();
                         ArrayList<Personajes> personajesIngresadoAManoP2 = new ArrayList<>();
 
-                        for (int i=0;i<2;i++) {
+                        for (int i=0;i<6;i++) {
 
                             System.out.println("---Personaje "+(i+1)+"---");
                             //Ingresar datos de los personajes, a mano.
@@ -71,7 +71,7 @@ public class Main {
                                 int opcionPersonaje = scanner.nextInt();
                                 Personajes personajeNuevo = crearPersonaje(opcionPersonaje);
 
-                                if (i==1) {
+                                if (i==3) {
                                     personajesIngresadoAManoP2.add(personajeNuevo);
                                 }
                                 else {
@@ -83,7 +83,6 @@ public class Main {
                                 scanner.next();
                             }
                         }
-
                         iniciarPartida(personajesIngresadoAManoP1,personajesIngresadoAManoP2);
                     }
                     case 3-> archivo.mostrarContenidoLog();
@@ -104,18 +103,34 @@ public class Main {
         return dosDecimales.format(Math.abs(danio));
     }
 
-    public static ArrayList<NombresApodos> crearNombresApodos() {
+    public static ArrayList<NombresApodos> crearApodosRandom(ArrayList<NombresApodos> array) {
         NombresApodos[] nombresApodos = NombresApodos.values();
-        Random random = new Random();
 
-        ArrayList<NombresApodos> arrayList = new ArrayList<>();
-        while (arrayList.size()<6) {
-            if (!arrayList.contains(nombresApodos[random.nextInt(nombresApodos.length)])) {
-                arrayList.add(nombresApodos[random.nextInt(nombresApodos.length)]);
+        ArrayList<NombresApodos> arrayListApodos = new ArrayList<>();
+        while (arrayListApodos.size()<6) {
+            int numeroRandom = (int)(Math.random()*nombresApodos.length);
+            for (NombresApodos apodo : array) {
+                if ((!arrayListApodos.contains(nombresApodos[numeroRandom]) && (!arrayListApodos.contains(apodo)))) {
+                    arrayListApodos.add(apodo);
+                }
             }
         }
-        return arrayList;
+        return arrayListApodos;
     }
+
+    public static ArrayList<NombresApodos> crearNombresRandom() {
+        NombresApodos[] nombresApodos = NombresApodos.values();
+
+        ArrayList<NombresApodos> arrayListNombres = new ArrayList<>();
+        while (arrayListNombres.size()<6) {
+            int numeroRandom = (int)(Math.random()*nombresApodos.length+1);
+            if (!arrayListNombres.contains(nombresApodos[numeroRandom])) {
+                arrayListNombres.add(nombresApodos[numeroRandom]);
+            }
+        }
+        return arrayListNombres;
+    }
+
     public static int crearNumeroEntreRangoRandom(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
