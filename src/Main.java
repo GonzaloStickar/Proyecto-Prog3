@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Main {
@@ -35,6 +36,9 @@ public class Main {
                 int opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1:
+                        System.out.println();
+                        System.out.println("---------------------------------------------");
+
                         ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
                         ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
 
@@ -44,9 +48,7 @@ public class Main {
                         ArrayList<Personajes> personajesP1Coordinados = new ArrayList<>();
                         ArrayList<Personajes> personajesP2Coordinados = new ArrayList<>();
 
-                        //double ataqueP1 = (((AtaquePersonaje) jugador1Personajes.get(ordenJuegoJugador1Personajes.get(0))).atacar());
-
-                        for (int i=0;i<3;i++) {
+                        for (int i=0;i<jugador1Personajes.size();i++) {
                             personajesP1Coordinados.add((jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i))));
                             personajesP2Coordinados.add(jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i)));
                         }
@@ -56,10 +58,16 @@ public class Main {
 
                         while (!terminoJuego) {
 
+                            System.out.println("Cartas Jugador 1: "+personajesP1Coordinados.size());
+                            System.out.println("Cartas Jugador 2: "+personajesP2Coordinados.size());
+
                             ronda+=1;
 
                             int ataquesP1= 7;
                             int ataquesP2= 7;
+
+                            double ataqueP1;
+                            double ataqueP2;
 
                             System.out.println("Ronda "+ronda);
                             int turno = crearNumeroEntreRangoRandom(0,1);
@@ -72,24 +80,26 @@ public class Main {
                             }
 
                             while (true) {
-                                if (ataquesP1==0 || ataquesP2 ==0) {
-                                    ataquesP1=7;
-                                    ataquesP2=7;
-                                }
-                                if (turno==0) {
-                                    System.out.println("Jugador 1 ataca al Jugador 2 con "+personajesP1Coordinados.get(0).apodo);
-                                    double ataqueP1 = (((AtaquePersonaje) jugador1Personajes.get(ordenJuegoJugador1Personajes.get(0))).atacar());
+                                ataqueP1 = ((AtaquePersonaje) personajesP1Coordinados.get(0)).atacar();
+                                ataqueP2 = ((AtaquePersonaje) personajesP2Coordinados.get(0)).atacar();
 
-//                                    if ((ataqueP1>personajesP2Coordinados.get(i).salud) && (personajesP2Coordinados.size()==1)) {
+                                if (ataquesP1==0 || ataquesP2 ==0) {
+                                    break; //Vuelve a empezar, una nueva ronda.
+                                }
+
+                                if (turno==0) {
+                                    //ataqueP1 = (((AtaquePersonaje) jugador1Personajes.get(ordenJuegoJugador1Personajes.get(0))).atacar());
+
+//                                    if ((ataqueP1>personajesP2Coordinados.get(0).salud) && (personajesP2Coordinados.size()==1)) {
 //                                        System.out.println("Gano el p1");
 //                                        break;
 //                                    }
 
                                     if (ataqueP1>personajesP2Coordinados.get(0).salud) {
-                                        System.out.println("Mano ganado por jugador p1");
+                                        System.out.println("Mano ganado por jugador 2");
                                         if (personajesP1Coordinados.size()==1) {
                                             terminoJuego=true;
-                                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
+                                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 2");
                                         }
                                         else {
                                             personajesP1Coordinados.remove(0);
@@ -105,7 +115,6 @@ public class Main {
                                 }
                                 else {
                                     System.out.println("Jugador 2 ataca al Jugador 1 con "+personajesP2Coordinados.get(0).apodo);
-                                    double ataqueP2 = (((AtaquePersonaje) jugador2Personajes.get(ordenJuegoJugador2Personajes.get(0))).atacar());
 
 //                                    if ((ataqueP2>personajesP1Coordinados.get(i).salud) && (personajesP1Coordinados.size()==1)) {
 //                                        System.out.println("Gano el p2");
@@ -113,7 +122,7 @@ public class Main {
 //                                    }
 
                                     if (ataqueP2>personajesP1Coordinados.get(0).salud) {
-                                        System.out.println("Mano ganado por jugador 2");
+                                        System.out.println("Mano ganado por jugador 1");
                                         if (personajesP2Coordinados.size()==1) {
                                             terminoJuego=true;
                                             System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
@@ -132,7 +141,7 @@ public class Main {
 
                             }
 
-                            System.out.println("---------------");
+                            System.out.println("---------------------------------------------");
                         }
 
                     case 2:
@@ -157,6 +166,11 @@ public class Main {
                 scanner.next();
             }
         }
+    }
+
+    private static String obtenerDosDecimales(double danio) {
+        DecimalFormat dosDecimales = new DecimalFormat("0.00");
+        return dosDecimales.format(Math.abs(danio));
     }
 
     public static ArrayList<NombresApodos> crearNombresApodos() {
