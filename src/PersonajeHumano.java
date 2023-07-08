@@ -4,6 +4,30 @@ public class PersonajeHumano extends Personajes implements AtaquePersonaje{
         this.raza = this.getClass().getName();
     }
 
+    public PersonajeHumano(String nombre,
+                         String apodo,
+                         String fechaNacimiento,
+                         int edad,
+                         double salud,
+                         int velocidad,
+                         int destreza,
+                         int fuerza,
+                         int nivel,
+                         int armadura) {
+        super(nombre,apodo,fechaNacimiento,edad,salud,velocidad,destreza,fuerza,nivel,armadura);
+        this.raza = this.getClass().getName();
+        this.nombre = nombre;
+        this.apodo = apodo;
+        this.fechaNacimiento = fechaNacimiento;
+        this.edad = edad;
+        this.salud = salud;
+        this.velocidad = velocidad;
+        this.destreza = destreza;
+        this.fuerza = fuerza;
+        this.nivel = nivel;
+        this.armadura = armadura;
+    }
+
     @Override
     public double atacar() {
         //Fórmula Original (Da números muy grandes)

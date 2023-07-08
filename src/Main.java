@@ -35,7 +35,7 @@ public class Main {
                 System.out.print("Elija una de las opciones: ");
                 int opcion = scanner.nextInt();
                 switch (opcion) {
-                    case 1:
+                    case 1 -> {
                         System.out.println();
                         System.out.println("---------------------------------------------");
 
@@ -57,6 +57,8 @@ public class Main {
                         int ronda=0;
 
                         while (!terminoJuego) {
+
+                            System.out.println("---------------------------------------------");
 
                             System.out.println("Cartas Jugador 1: "+personajesP1Coordinados.size());
                             System.out.println("Cartas Jugador 2: "+personajesP2Coordinados.size());
@@ -88,12 +90,7 @@ public class Main {
                                 }
 
                                 if (turno==0) {
-                                    //ataqueP1 = (((AtaquePersonaje) jugador1Personajes.get(ordenJuegoJugador1Personajes.get(0))).atacar());
-
-//                                    if ((ataqueP1>personajesP2Coordinados.get(0).salud) && (personajesP2Coordinados.size()==1)) {
-//                                        System.out.println("Gano el p1");
-//                                        break;
-//                                    }
+                                    System.out.println("(Ataques restantes:" + ataquesP1 + ")   J1 ataca al J2 con "+personajesP1Coordinados.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
 
                                     if (ataqueP1>personajesP2Coordinados.get(0).salud) {
                                         System.out.println("Mano ganado por jugador 2");
@@ -109,17 +106,11 @@ public class Main {
                                     else {
                                         personajesP2Coordinados.get(0).setSalud(ataqueP1);
                                         ataquesP1-=1;
-                                        System.out.println(" (Ataques restantes: "+ataquesP1+")");
                                     }
                                     turno = 1;
                                 }
                                 else {
-                                    System.out.println("Jugador 2 ataca al Jugador 1 con "+personajesP2Coordinados.get(0).apodo);
-
-//                                    if ((ataqueP2>personajesP1Coordinados.get(i).salud) && (personajesP1Coordinados.size()==1)) {
-//                                        System.out.println("Gano el p2");
-//                                        break;
-//                                    }
+                                    System.out.println("(Ataques restantes:" + ataquesP1 + ")   J2 ataca al J1 con "+personajesP2Coordinados.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
 
                                     if (ataqueP2>personajesP1Coordinados.get(0).salud) {
                                         System.out.println("Mano ganado por jugador 1");
@@ -138,27 +129,33 @@ public class Main {
                                     }
                                     turno = 0;
                                 }
-
                             }
-
                             System.out.println("---------------------------------------------");
                         }
+                    }
 
-                    case 2:
-                        break;
-
-                    case 3:
-                        archivo.mostrarContenidoLog();
-                        break;
-                    case 4:
-                        archivo.eliminarContenidoLog();
-                        break;
-                    case 5:
-                        archivo.eliminarlog();
-                        break;
-
-                    case 0:
-                        finalizar = true;
+                    case 2-> {
+                        //Ingresar datos de los personajes, a mano.
+                        System.out.println("Que personaje quiere?");
+                        System.out.println("1) Orco");
+                        System.out.println("2) Elfo");
+                        System.out.println("3) Humano");
+                        try {
+                            System.out.print("Elija una de las opciones: ");
+                            int opcionPersonaje = scanner.nextInt();
+                            Personajes personaje = crearPersonaje(opcionPersonaje);
+                            System.out.println(personaje.nombre);
+                            System.out.println(personaje.apodo);
+                        }
+                        catch (InputMismatchException e) {
+                            System.out.println("Ingresar un número");
+                            scanner.next();
+                        }
+                    }
+                    case 3-> archivo.mostrarContenidoLog();
+                    case 4 -> archivo.eliminarContenidoLog();
+                    case 5 -> archivo.eliminarlog();
+                    case 0 -> finalizar = true;
                 }
             }
             catch (InputMismatchException e) {
@@ -219,5 +216,203 @@ public class Main {
             }
         }
         return array;
+    }
+
+    public static Personajes crearPersonaje (int opcionSeleccionada) {
+        Scanner scanner = new Scanner(System.in);
+
+        //Nombre
+        String nombrePersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese el nombre del personaje: ");
+                String nombrePersonajeIngresado = scanner.nextLine();
+                if (nombrePersonajeIngresado.matches("^[a-zA-Z]+$")) {
+                    nombrePersonaje = nombrePersonajeIngresado;
+                    break;
+                } else {
+                    System.out.println("Error, ingrese un nombre adecuado.");
+                }
+            } catch (IllegalArgumentException e) {
+                scanner.nextLine();
+            }
+        }
+
+        //Apodo
+        String apodoPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese el apodo del personaje: ");
+                String apodoPersonajeIngresado = scanner.nextLine();
+                if (apodoPersonajeIngresado.matches("^[a-zA-Z]+$")) {
+                    apodoPersonaje = apodoPersonajeIngresado;
+                    break;
+                } else {
+                    System.out.println("Error, ingrese un apodo adecuado.");
+                }
+            } catch (IllegalArgumentException e) {
+                scanner.nextLine();
+            }
+        }
+
+        //FechaNacimiento
+        String fechaNacimientoPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese una fecha de nacimiento del personaje: ");
+                String fechaNacimientoPersonajeIngresado = scanner.nextLine();
+                if (fechaNacimientoPersonajeIngresado.matches("[a-zA-Z0-9 ]+")) {
+                    fechaNacimientoPersonaje = fechaNacimientoPersonajeIngresado;
+                    break;
+                } else {
+                    System.out.println("Error, ingrese una fecha de nacimiento adecuada.");
+                }
+            } catch (IllegalArgumentException e) {
+                scanner.nextLine();
+            }
+        }
+
+        //Edad
+        int edadPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese la edad del personaje: ");
+                int edadPersonajeIngresado = scanner.nextInt();
+                if (edadPersonajeIngresado >= 0 && edadPersonajeIngresado <= 300) {
+                    scanner.nextLine();
+                    edadPersonaje = edadPersonajeIngresado;
+                    break;
+                } else {
+                    throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese una edad válida.");
+                scanner.nextLine();
+            }
+        }
+
+        //Salud
+        double saludPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese la 'salud' del personaje: ");
+                int saludPersonajeIngresado = scanner.nextInt();
+                if (saludPersonajeIngresado > 0 && saludPersonajeIngresado < 9999) {
+                    scanner.nextLine();
+                    saludPersonaje = saludPersonajeIngresado;
+                    break;
+                } else {
+                    throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese una 'salud' adecuada.");
+                scanner.nextLine();
+            }
+        }
+
+        //Velocidad
+        int velocidadPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese la velocidad del personaje: ");
+                int velocidadPersonajeIngresado = scanner.nextInt();
+                if (velocidadPersonajeIngresado >= 1 && velocidadPersonajeIngresado <= 10) {
+                    scanner.nextLine();
+                    velocidadPersonaje = velocidadPersonajeIngresado;
+                    break;
+                } else {
+                    throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese una velocidad adecuada.");
+                scanner.nextLine();
+            }
+        }
+
+        //Destreza
+        int destrezaPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese la destreza del personaje: ");
+                int destrezaPersonajeIngresado = scanner.nextInt();
+                if (destrezaPersonajeIngresado >= 1 && destrezaPersonajeIngresado <= 5) {
+                    scanner.nextLine();
+                    destrezaPersonaje = destrezaPersonajeIngresado;
+                    break;
+                } else {
+                    throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese una destreza adecuada.");
+                scanner.nextLine();
+            }
+        }
+
+        //Fuerza
+        int fuerzaPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese la fuerza del personaje: ");
+                int fuerzaPersonajeIngresado = scanner.nextInt();
+                if (fuerzaPersonajeIngresado >= 1 && fuerzaPersonajeIngresado <= 10) {
+                    scanner.nextLine();
+                    fuerzaPersonaje = fuerzaPersonajeIngresado;
+                    break;
+                } else {
+                    throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese una fuerza adecuada.");
+                scanner.nextLine();
+            }
+        }
+
+        //Nivel
+        int nivelPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese el nivel del personaje: ");
+                int nivelPersonajeIngresado = scanner.nextInt();
+                if (nivelPersonajeIngresado >= 1 && nivelPersonajeIngresado <= 10) {
+                    scanner.nextLine();
+                    nivelPersonaje = nivelPersonajeIngresado;
+                    break;
+                } else {
+                    throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese un nivel adecuada.");
+                scanner.nextLine();
+            }
+        }
+
+        //Armadura
+        int armaduraPersonaje;
+        while (true) {
+            try {
+                System.out.print("Ingrese la armadura del personaje: ");
+                int armaduraPersonajeIngresado = scanner.nextInt();
+                if (armaduraPersonajeIngresado >= 1 && armaduraPersonajeIngresado <= 10) {
+                    scanner.nextLine();
+                    armaduraPersonaje = armaduraPersonajeIngresado;
+                    break;
+                } else {
+                    throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese una armadura adecuada.");
+                scanner.nextLine();
+            }
+        }
+
+        if (opcionSeleccionada == 1) {
+            return new PersonajeOrco(nombrePersonaje, apodoPersonaje, fechaNacimientoPersonaje, edadPersonaje, saludPersonaje, velocidadPersonaje, destrezaPersonaje, fuerzaPersonaje, nivelPersonaje, armaduraPersonaje);
+        }
+        else if (opcionSeleccionada==2) {
+            return new PersonajeElfo(nombrePersonaje, apodoPersonaje, fechaNacimientoPersonaje, edadPersonaje, saludPersonaje, velocidadPersonaje, destrezaPersonaje, fuerzaPersonaje, nivelPersonaje, armaduraPersonaje);
+        }
+        else {
+            return new PersonajeHumano(nombrePersonaje, apodoPersonaje, fechaNacimientoPersonaje, edadPersonaje, saludPersonaje, velocidadPersonaje, destrezaPersonaje, fuerzaPersonaje, nivelPersonaje, armaduraPersonaje);
+        }
     }
 }
