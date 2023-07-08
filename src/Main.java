@@ -7,10 +7,6 @@ public class Main {
 
         ArchivoManager archivo = new ArchivoManager();
         archivo.aniadirTexto("hola");
-        //archivo.mostrarContenidoLog();
-        //archivo.eliminarContenidoLog();
-        //archivo.eliminarlog();
-
 
         //Genero NombresApodos
         ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresApodos());
@@ -39,16 +35,84 @@ public class Main {
                 int opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1:
-                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom,apodosRandom));
-                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom,apodosRandom));
+                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
+                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
 
                         ArrayList<Integer> ordenJuegoJugador1Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
                         ArrayList<Integer> ordenJuegoJugador2Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
 
-                    case 2:
-                    case 3:
+                        ArrayList<Personajes> personajesP1Coordinados = new ArrayList<>();
+                        ArrayList<Personajes> personajesP2Coordinados = new ArrayList<>();
 
-                    case 0: finalizar=true;
+                        //double ataqueP1 = (((AtaquePersonaje) jugador1Personajes.get(ordenJuegoJugador1Personajes.get(0))).atacar());
+
+                        for (int i=0;i<3;i++) {
+                            personajesP1Coordinados.add((jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i))));
+                            personajesP2Coordinados.add(jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i)));
+                        }
+
+                        for (int i=0;i<3;i++) {
+                            int turno = crearNumeroEntreRangoRandom(0,1);
+                            while (true) {
+                                int ataquesP1 = 7;
+                                int ataquesP2 = 7;
+
+                                if (turno==0) {
+                                    ataquesP1=-1;
+                                    double ataqueP1 = (((AtaquePersonaje) jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i))).atacar());
+
+                                    if ((ataqueP1>personajesP2Coordinados.get(i).salud) && (personajesP2Coordinados.size()==1)) {
+                                        System.out.println("Gano el p1");
+                                        break;
+                                    }
+
+                                    else if (ataqueP1>personajesP2Coordinados.get(i).salud) {
+                                        System.out.println("Gano el p1");
+                                        break;
+                                    }
+                                    else {
+                                        personajesP2Coordinados.get(i).setSalud(ataqueP1);
+                                    }
+                                    turno = 1;
+                                }
+                                else {
+                                    ataquesP2=-1;
+                                    double ataqueP2 = (((AtaquePersonaje) jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i))).atacar());
+
+                                    if ((ataqueP2>personajesP1Coordinados.get(i).salud) && (personajesP1Coordinados.size()==1)) {
+                                        System.out.println("Gano el p2");
+                                        break;
+                                    }
+
+                                    else if (ataqueP2>personajesP1Coordinados.get(i).salud) {
+                                        System.out.println("Gano el p2");
+                                        break;
+                                    }
+                                    else {
+                                        personajesP1Coordinados.get(i).setSalud(ataqueP2);
+                                    }
+                                    turno = 0;
+                                }
+
+                            }
+                        }
+                        break;
+
+                    case 2:
+
+
+                    case 3:
+                        archivo.mostrarContenidoLog();
+                        break;
+                    case 4:
+                        archivo.eliminarContenidoLog();
+                        break;
+                    case 5:
+                        archivo.eliminarlog();
+                        break;
+
+                    case 0:
+                        finalizar = true;
                 }
             }
             catch (InputMismatchException e) {
