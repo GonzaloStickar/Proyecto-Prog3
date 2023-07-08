@@ -6,7 +6,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         ArchivoManager archivo = new ArchivoManager();
-        archivo.aniadirTexto("hola");
+        //archivo.aniadirTexto("hola");
 
         //Genero NombresApodos
         ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresApodos());
@@ -51,55 +51,92 @@ public class Main {
                             personajesP2Coordinados.add(jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i)));
                         }
 
-                        for (int i=0;i<3;i++) {
+                        boolean terminoJuego=false;
+                        int ronda=0;
+
+                        while (!terminoJuego) {
+
+                            ronda+=1;
+
+                            int ataquesP1= 7;
+                            int ataquesP2= 7;
+
+                            System.out.println("Ronda "+ronda);
                             int turno = crearNumeroEntreRangoRandom(0,1);
+
+                            if (turno==0) {
+                                System.out.println("Empieza atacando el jugador 1");
+                            }
+                            else {
+                                System.out.println("Empieza atacando el jugador 2");
+                            }
+
                             while (true) {
-                                int ataquesP1 = 7;
-                                int ataquesP2 = 7;
-
+                                if (ataquesP1==0 || ataquesP2 ==0) {
+                                    ataquesP1=7;
+                                    ataquesP2=7;
+                                }
                                 if (turno==0) {
-                                    ataquesP1=-1;
-                                    double ataqueP1 = (((AtaquePersonaje) jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i))).atacar());
+                                    System.out.println("Jugador 1 ataca al Jugador 2 con "+personajesP1Coordinados.get(0).apodo);
+                                    double ataqueP1 = (((AtaquePersonaje) jugador1Personajes.get(ordenJuegoJugador1Personajes.get(0))).atacar());
 
-                                    if ((ataqueP1>personajesP2Coordinados.get(i).salud) && (personajesP2Coordinados.size()==1)) {
-                                        System.out.println("Gano el p1");
-                                        break;
-                                    }
+//                                    if ((ataqueP1>personajesP2Coordinados.get(i).salud) && (personajesP2Coordinados.size()==1)) {
+//                                        System.out.println("Gano el p1");
+//                                        break;
+//                                    }
 
-                                    else if (ataqueP1>personajesP2Coordinados.get(i).salud) {
-                                        System.out.println("Gano el p1");
+                                    if (ataqueP1>personajesP2Coordinados.get(0).salud) {
+                                        System.out.println("Mano ganado por jugador p1");
+                                        if (personajesP1Coordinados.size()==1) {
+                                            terminoJuego=true;
+                                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
+                                        }
+                                        else {
+                                            personajesP1Coordinados.remove(0);
+                                        }
                                         break;
                                     }
                                     else {
-                                        personajesP2Coordinados.get(i).setSalud(ataqueP1);
+                                        personajesP2Coordinados.get(0).setSalud(ataqueP1);
+                                        ataquesP1-=1;
+                                        System.out.println(" (Ataques restantes: "+ataquesP1+")");
                                     }
                                     turno = 1;
                                 }
                                 else {
-                                    ataquesP2=-1;
-                                    double ataqueP2 = (((AtaquePersonaje) jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i))).atacar());
+                                    System.out.println("Jugador 2 ataca al Jugador 1 con "+personajesP2Coordinados.get(0).apodo);
+                                    double ataqueP2 = (((AtaquePersonaje) jugador2Personajes.get(ordenJuegoJugador2Personajes.get(0))).atacar());
 
-                                    if ((ataqueP2>personajesP1Coordinados.get(i).salud) && (personajesP1Coordinados.size()==1)) {
-                                        System.out.println("Gano el p2");
-                                        break;
-                                    }
+//                                    if ((ataqueP2>personajesP1Coordinados.get(i).salud) && (personajesP1Coordinados.size()==1)) {
+//                                        System.out.println("Gano el p2");
+//                                        break;
+//                                    }
 
-                                    else if (ataqueP2>personajesP1Coordinados.get(i).salud) {
-                                        System.out.println("Gano el p2");
+                                    if (ataqueP2>personajesP1Coordinados.get(0).salud) {
+                                        System.out.println("Mano ganado por jugador 2");
+                                        if (personajesP2Coordinados.size()==1) {
+                                            terminoJuego=true;
+                                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
+                                        }
+                                        else {
+                                            personajesP2Coordinados.remove(0);
+                                        }
                                         break;
                                     }
                                     else {
-                                        personajesP1Coordinados.get(i).setSalud(ataqueP2);
+                                        personajesP1Coordinados.get(0).setSalud(ataqueP2);
+                                        ataquesP2-=1;
                                     }
                                     turno = 0;
                                 }
 
                             }
+
+                            System.out.println("---------------");
                         }
-                        break;
 
                     case 2:
-
+                        break;
 
                     case 3:
                         archivo.mostrarContenidoLog();
