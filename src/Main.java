@@ -36,9 +36,6 @@ public class Main {
                 int opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1 -> {
-                        System.out.println();
-                        System.out.println("---------------------------------------------");
-
                         ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
                         ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
 
@@ -53,104 +50,41 @@ public class Main {
                             personajesP2Coordinados.add(jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i)));
                         }
 
-                        boolean terminoJuego=false;
-                        int ronda=0;
-
-                        while (!terminoJuego) {
-
-                            System.out.println("---------------------------------------------");
-
-                            System.out.println("Cartas Jugador 1: "+personajesP1Coordinados.size());
-                            System.out.println("Cartas Jugador 2: "+personajesP2Coordinados.size());
-
-                            ronda+=1;
-
-                            int ataquesP1= 7;
-                            int ataquesP2= 7;
-
-                            double ataqueP1;
-                            double ataqueP2;
-
-                            System.out.println("Ronda "+ronda);
-                            int turno = crearNumeroEntreRangoRandom(0,1);
-
-                            if (turno==0) {
-                                System.out.println("Empieza atacando el jugador 1");
-                            }
-                            else {
-                                System.out.println("Empieza atacando el jugador 2");
-                            }
-
-                            while (true) {
-                                ataqueP1 = ((AtaquePersonaje) personajesP1Coordinados.get(0)).atacar();
-                                ataqueP2 = ((AtaquePersonaje) personajesP2Coordinados.get(0)).atacar();
-
-                                if (ataquesP1==0 || ataquesP2 ==0) {
-                                    break; //Vuelve a empezar, una nueva ronda.
-                                }
-
-                                if (turno==0) {
-                                    System.out.println("(Ataques restantes:" + ataquesP1 + ")   J1 ataca al J2 con "+personajesP1Coordinados.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
-
-                                    if (ataqueP1>personajesP2Coordinados.get(0).salud) {
-                                        System.out.println("Mano ganado por jugador 2");
-                                        if (personajesP1Coordinados.size()==1) {
-                                            terminoJuego=true;
-                                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 2");
-                                        }
-                                        else {
-                                            personajesP1Coordinados.remove(0);
-                                        }
-                                        break;
-                                    }
-                                    else {
-                                        personajesP2Coordinados.get(0).setSalud(ataqueP1);
-                                        ataquesP1-=1;
-                                    }
-                                    turno = 1;
-                                }
-                                else {
-                                    System.out.println("(Ataques restantes:" + ataquesP1 + ")   J2 ataca al J1 con "+personajesP2Coordinados.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
-
-                                    if (ataqueP2>personajesP1Coordinados.get(0).salud) {
-                                        System.out.println("Mano ganado por jugador 1");
-                                        if (personajesP2Coordinados.size()==1) {
-                                            terminoJuego=true;
-                                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
-                                        }
-                                        else {
-                                            personajesP2Coordinados.remove(0);
-                                        }
-                                        break;
-                                    }
-                                    else {
-                                        personajesP1Coordinados.get(0).setSalud(ataqueP2);
-                                        ataquesP2-=1;
-                                    }
-                                    turno = 0;
-                                }
-                            }
-                            System.out.println("---------------------------------------------");
-                        }
+                        iniciarPartida(personajesP1Coordinados,personajesP2Coordinados);
                     }
 
                     case 2-> {
-                        //Ingresar datos de los personajes, a mano.
-                        System.out.println("Que personaje quiere?");
-                        System.out.println("1) Orco");
-                        System.out.println("2) Elfo");
-                        System.out.println("3) Humano");
-                        try {
-                            System.out.print("Elija una de las opciones: ");
-                            int opcionPersonaje = scanner.nextInt();
-                            Personajes personaje = crearPersonaje(opcionPersonaje);
-                            System.out.println(personaje.nombre);
-                            System.out.println(personaje.apodo);
+                        ArrayList<Personajes> personajesIngresadoAManoP1 = new ArrayList<>();
+                        ArrayList<Personajes> personajesIngresadoAManoP2 = new ArrayList<>();
+
+                        for (int i=0;i<2;i++) {
+
+                            System.out.println("---Personaje "+(i+1)+"---");
+                            //Ingresar datos de los personajes, a mano.
+                            System.out.println("Que personaje quiere?");
+                            System.out.println("1) Orco");
+                            System.out.println("2) Elfo");
+                            System.out.println("3) Humano");
+
+                            try {
+                                System.out.print("Elija uno de los personajes: ");
+                                int opcionPersonaje = scanner.nextInt();
+                                Personajes personajeNuevo = crearPersonaje(opcionPersonaje);
+
+                                if (i==1) {
+                                    personajesIngresadoAManoP2.add(personajeNuevo);
+                                }
+                                else {
+                                    personajesIngresadoAManoP1.add(personajeNuevo);
+                                }
+                            }
+                            catch (InputMismatchException e) {
+                                System.out.println("Ingresar un número");
+                                scanner.next();
+                            }
                         }
-                        catch (InputMismatchException e) {
-                            System.out.println("Ingresar un número");
-                            scanner.next();
-                        }
+
+                        iniciarPartida(personajesIngresadoAManoP1,personajesIngresadoAManoP2);
                     }
                     case 3-> archivo.mostrarContenidoLog();
                     case 4 -> archivo.eliminarContenidoLog();
@@ -413,6 +347,92 @@ public class Main {
         }
         else {
             return new PersonajeHumano(nombrePersonaje, apodoPersonaje, fechaNacimientoPersonaje, edadPersonaje, saludPersonaje, velocidadPersonaje, destrezaPersonaje, fuerzaPersonaje, nivelPersonaje, armaduraPersonaje);
+        }
+    }
+
+    public static void iniciarPartida (ArrayList<Personajes> j1, ArrayList<Personajes> j2) {
+        System.out.println();
+        System.out.println("---------------------------------------------");
+
+        boolean terminoJuego=false;
+        int ronda=0;
+
+        while (!terminoJuego) {
+
+            System.out.println("---------------------------------------------");
+
+            System.out.println("Cartas Jugador 1: "+j1.size());
+            System.out.println("Cartas Jugador 2: "+j2.size());
+            System.out.println();
+
+            ronda+=1;
+
+            int ataquesP1= 7;
+            int ataquesP2= 7;
+
+            double ataqueP1;
+            double ataqueP2;
+
+            System.out.println("Ronda "+ronda);
+            int turno = crearNumeroEntreRangoRandom(0,1);
+
+            if (turno==0) {
+                System.out.println("Empieza atacando el jugador 1");
+            }
+            else {
+                System.out.println("Empieza atacando el jugador 2");
+            }
+
+            while (true) {
+                ataqueP1 = ((AtaquePersonaje) j1.get(0)).atacar();
+                ataqueP2 = ((AtaquePersonaje) j2.get(0)).atacar();
+
+                if (ataquesP1==0 || ataquesP2 ==0) {
+                    break; //Vuelve a empezar, una nueva ronda.
+                }
+
+                if (turno==0) {
+                    System.out.println("(Ataques restantes:" + ataquesP1 + ")   J1 ataca al J2 con "+j1.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
+
+                    if (ataqueP1>j2.get(0).salud) {
+                        System.out.println("Mano ganado por jugador 2");
+                        if (j1.size()==1) {
+                            terminoJuego=true;
+                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 2");
+                        }
+                        else {
+                            j1.remove(0);
+                        }
+                        break;
+                    }
+                    else {
+                        j2.get(0).setSalud(ataqueP1);
+                        ataquesP1-=1;
+                    }
+                    turno = 1;
+                }
+                else {
+                    System.out.println("(Ataques restantes:" + ataquesP1 + ")   J2 ataca al J1 con "+j2.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
+
+                    if (ataqueP2>j1.get(0).salud) {
+                        System.out.println("Mano ganado por jugador 1");
+                        if (j2.size()==1) {
+                            terminoJuego=true;
+                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
+                        }
+                        else {
+                            j2.remove(0);
+                        }
+                        break;
+                    }
+                    else {
+                        j1.get(0).setSalud(ataqueP2);
+                        ataquesP2-=1;
+                    }
+                    turno = 0;
+                }
+            }
+            System.out.println("---------------------------------------------");
         }
     }
 }

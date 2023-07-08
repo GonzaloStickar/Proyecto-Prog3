@@ -70,6 +70,10 @@ public abstract class Personajes {
         this.fuerza = fuerza;
         this.nivel = nivel;
         this.armadura = armadura;
+        this.PD = this.destreza * this.fuerza * this.nivel;
+        this.ED = crearValorEntreRangoRandom(1, 100);
+        this.VA = this.PD * ED;
+        this.PDEF = this.armadura * this.velocidad;
     }
 
     public void setSalud(double ataque) {
