@@ -52,7 +52,6 @@ public class Main {
 
                         iniciarPartida(personajesP1Coordinados,personajesP2Coordinados);
                     }
-
                     case 2-> {
                         ArrayList<Personajes> personajesIngresadoAManoP1 = new ArrayList<>();
                         ArrayList<Personajes> personajesIngresadoAManoP2 = new ArrayList<>();
@@ -123,7 +122,7 @@ public class Main {
 
         ArrayList<NombresApodos> arrayListNombres = new ArrayList<>();
         while (arrayListNombres.size()<6) {
-            int numeroRandom = (int)(Math.random()*nombresApodos.length+1);
+            int numeroRandom = (int)(Math.random()*nombresApodos.length);
             if (!arrayListNombres.contains(nombresApodos[numeroRandom])) {
                 arrayListNombres.add(nombresApodos[numeroRandom]);
             }
@@ -410,13 +409,13 @@ public class Main {
                     System.out.println("(Ataques restantes:" + ataquesP1 + ")   J1 ataca al J2 con "+j1.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
 
                     if (ataqueP1>j2.get(0).salud) {
-                        System.out.println("Mano ganado por jugador 2");
-                        if (j1.size()==1) {
+                        System.out.println("Mano ganada por jugador 1");
+                        if (j2.size()==1) {
                             terminoJuego=true;
-                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 2");
+                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
                         }
                         else {
-                            j1.remove(0);
+                            j2.remove(0);
                         }
                         break;
                     }
@@ -430,13 +429,13 @@ public class Main {
                     System.out.println("(Ataques restantes:" + ataquesP1 + ")   J2 ataca al J1 con "+j2.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
 
                     if (ataqueP2>j1.get(0).salud) {
-                        System.out.println("Mano ganado por jugador 1");
-                        if (j2.size()==1) {
+                        System.out.println("Mano ganada por jugador 2");
+                        if (j1.size()==1) {
                             terminoJuego=true;
-                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
+                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 2");
                         }
                         else {
-                            j2.remove(0);
+                            j1.remove(0);
                         }
                         break;
                     }
