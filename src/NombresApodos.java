@@ -17,5 +17,5 @@ public enum NombresApodos {
     Wilorot,
     Zaigrut,
     Weurk,
-    Bregezug;
+    Bregezug
 }

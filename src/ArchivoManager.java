@@ -48,4 +48,13 @@ public class ArchivoManager {
     public void eliminarlog() {
         log.delete();
     }
+
+    public void mostrarFelicitaciones(int jugador) {
+        System.out.println();
+        System.out.println("(=============================================================================");
+        System.out.println("                          Felicitaciones!!!");
+        System.out.println(" Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador "+jugador);
+        System.out.println("==============================================================================");
+        System.out.println();
+    }
 }

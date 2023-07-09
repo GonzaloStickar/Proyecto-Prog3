@@ -365,16 +365,16 @@ public class Main {
     }
 
     public static void iniciarPartida (ArrayList<Personajes> j1, ArrayList<Personajes> j2) {
+
         System.out.println();
         System.out.println("---------------------------------------------");
 
+        ArchivoManager archivoManager = new ArchivoManager();
         boolean terminoJuego=false;
         int ronda=0;
 
         while (!terminoJuego) {
-
             System.out.println("---------------------------------------------");
-
             System.out.println("Cartas Jugador 1: "+j1.size());
             System.out.println("Cartas Jugador 2: "+j2.size());
             System.out.println();
@@ -398,21 +398,31 @@ public class Main {
             }
 
             while (true) {
+
                 ataqueP1 = ((AtaquePersonaje) j1.get(0)).atacar();
                 ataqueP2 = ((AtaquePersonaje) j2.get(0)).atacar();
+
+                if (ataqueP1<=0) {
+                    ataqueP1 = ((AtaquePersonaje) j1.get(0)).atacar();
+                }
+                if (ataqueP2<=0) {
+                    ataqueP2 = ((AtaquePersonaje) j2.get(0)).atacar();
+                }
 
                 if (ataquesP1==0 || ataquesP2 ==0) {
                     break; //Vuelve a empezar, una nueva ronda.
                 }
 
                 if (turno==0) {
+                    System.out.println("J2 tiene una salud de: "+j2.get(0).salud);
                     System.out.println("(Ataques restantes:" + ataquesP1 + ")   J1 ataca al J2 con "+j1.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
 
                     if (ataqueP1>j2.get(0).salud) {
                         System.out.println("Mano ganada por jugador 1");
                         if (j2.size()==1) {
+                            int jugadorCampeon=1;
+                            archivoManager.mostrarFelicitaciones(jugadorCampeon);
                             terminoJuego=true;
-                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 1");
                         }
                         else {
                             j2.remove(0);
@@ -426,13 +436,16 @@ public class Main {
                     turno = 1;
                 }
                 else {
+                    System.out.println("J1 tiene una salud de: "+j1.get(0).salud);
                     System.out.println("(Ataques restantes:" + ataquesP1 + ")   J2 ataca al J1 con "+j2.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
 
                     if (ataqueP2>j1.get(0).salud) {
                         System.out.println("Mano ganada por jugador 2");
                         if (j1.size()==1) {
+                            int jugadorCampeon=2;
+                            archivoManager.mostrarFelicitaciones(jugadorCampeon);
                             terminoJuego=true;
-                            System.out.println("Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador 2");
+
                         }
                         else {
                             j1.remove(0);
@@ -447,6 +460,7 @@ public class Main {
                 }
             }
             System.out.println("---------------------------------------------");
+            System.out.println();
         }
     }
 }
