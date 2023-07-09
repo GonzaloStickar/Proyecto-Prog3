@@ -5,17 +5,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         ArchivoManager archivo = new ArchivoManager();
         //archivo.aniadirTexto("hola");
-
-        //Genero personajes
-        //[0,1,0,2,1,2] (Dependiendo el número, se crea una clase diferente) (Para diferenciar y que sea aleatorio)
-
-        //Prueba
-//        System.out.println(personajeHumano.atacar());
-//        personajeOrco.setSalud(personajeHumano.atacar());
-//        System.out.println(personajeOrco.salud);
 
         boolean finalizar = false;
         while (!finalizar) {
@@ -329,7 +320,7 @@ public class Main {
                     throw new InputMismatchException();
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Ingrese un nivel adecuada.");
+                System.out.println("Ingrese un nivel adecuado.");
                 scanner.nextLine();
             }
         }
