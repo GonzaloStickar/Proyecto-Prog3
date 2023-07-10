@@ -366,8 +366,8 @@ public class Main {
 
         while (!terminoJuego) {
             System.out.println("---------------------------------------------");
-            System.out.println("Cartas Jugador 1: "+j1.size());
-            System.out.println("Cartas Jugador 2: "+j2.size());
+//            System.out.println("Cartas Jugador 1: "+j1.size());
+//            System.out.println("Cartas Jugador 2: "+j2.size());
             System.out.println();
 
             ronda+=1;
@@ -379,6 +379,7 @@ public class Main {
             double ataqueP2;
 
             System.out.println("Ronda "+ronda);
+            System.out.println();
             int turno = crearNumeroEntreRangoRandom(0,1);
 
             if (turno==0) {
@@ -401,15 +402,22 @@ public class Main {
                 }
 
                 if (ataquesP1==0 || ataquesP2 ==0) {
-                    break; //Vuelve a empezar, una nueva ronda.
+                    break; //Vuelve a empezar una nueva ronda independientemente
+                    // de quien haya ganado. Si gana la ronda el J1, y el J2
+                    // tenía un ataque más, no va a ser posible que lo realice, ya que
+                    // el J1 ganó la mano.
                 }
+                System.out.println();
 
                 if (turno==0) {
-                    System.out.println("J2 tiene una salud de: "+j2.get(0).salud);
-                    System.out.println("(Ataques restantes:" + ataquesP1 + ")   J1 ataca al J2 con "+j1.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
+                    System.out.println("Ataca J1");
+                    System.out.println("J2 tiene una salud de: "+obtenerDosDecimales(j2.get(0).salud));
+                    System.out.println("J1 ataca al J2 con "+j1.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
+                    System.out.println("(Ataques restantes:" + (ataquesP1-1) + ")");
 
                     if (ataqueP1>j2.get(0).salud) {
-                        System.out.println("Mano ganada por jugador 1");
+                        System.out.println();
+                        System.out.println("Ronda ganada por jugador 1");
                         if (j2.size()==1) {
                             int jugadorCampeon=1;
                             archivoManager.mostrarFelicitaciones(jugadorCampeon);
@@ -427,16 +435,18 @@ public class Main {
                     turno = 1;
                 }
                 else {
-                    System.out.println("J1 tiene una salud de: "+j1.get(0).salud);
-                    System.out.println("(Ataques restantes:" + ataquesP1 + ")   J2 ataca al J1 con "+j2.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
+                    System.out.println("Ataca J2");
+                    System.out.println("J1 tiene una salud de: "+obtenerDosDecimales(j1.get(0).salud));
+                    System.out.println("J2 ataca al J1 con "+j2.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
+                    System.out.println("(Ataques restantes:" + (ataquesP2-1) + ")");
 
                     if (ataqueP2>j1.get(0).salud) {
-                        System.out.println("Mano ganada por jugador 2");
+                        System.out.println();
+                        System.out.println("Ronda ganada por jugador 2");
                         if (j1.size()==1) {
                             int jugadorCampeon=2;
                             archivoManager.mostrarFelicitaciones(jugadorCampeon);
                             terminoJuego=true;
-
                         }
                         else {
                             j1.remove(0);
@@ -444,6 +454,7 @@ public class Main {
                         break;
                     }
                     else {
+
                         j1.get(0).setSalud(ataqueP2);
                         ataquesP2-=1;
                     }
