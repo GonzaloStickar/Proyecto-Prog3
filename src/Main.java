@@ -153,191 +153,37 @@ public class Main {
     }
 
     public static Personajes crearPersonaje (int opcionSeleccionada) {
-        Scanner scanner = new Scanner(System.in);
+        Controller controller = new Controller();
 
         //Nombre
-        String nombrePersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese el nombre del personaje: ");
-                String nombrePersonajeIngresado = scanner.nextLine();
-                if (nombrePersonajeIngresado.matches("^[a-zA-Z]+$")) {
-                    nombrePersonaje = nombrePersonajeIngresado;
-                    break;
-                } else {
-                    System.out.println("Error, ingrese un nombre adecuado.");
-                }
-            } catch (IllegalArgumentException e) {
-                scanner.nextLine();
-            }
-        }
+        String nombrePersonaje = controller.ingresarStringRegex("Ingrese el nombre del personaje: ","^[a-zA-Z]+$","Error, ingrese un nombre adecuado.");
 
         //Apodo
-        String apodoPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese el apodo del personaje: ");
-                String apodoPersonajeIngresado = scanner.nextLine();
-                if (apodoPersonajeIngresado.matches("^[a-zA-Z]+$")) {
-                    apodoPersonaje = apodoPersonajeIngresado;
-                    break;
-                } else {
-                    System.out.println("Error, ingrese un apodo adecuado.");
-                }
-            } catch (IllegalArgumentException e) {
-                scanner.nextLine();
-            }
-        }
+        String apodoPersonaje = controller.ingresarStringRegex("Ingrese el apodo del personaje: ","^[a-zA-Z]+$","Error, ingrese un apodo adecuado.");
 
         //FechaNacimiento
-        String fechaNacimientoPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese una fecha de nacimiento del personaje: ");
-                String fechaNacimientoPersonajeIngresado = scanner.nextLine();
-                if (fechaNacimientoPersonajeIngresado.matches("[a-zA-Z0-9 ]+")) {
-                    fechaNacimientoPersonaje = fechaNacimientoPersonajeIngresado;
-                    break;
-                } else {
-                    System.out.println("Error, ingrese una fecha de nacimiento adecuada.");
-                }
-            } catch (IllegalArgumentException e) {
-                scanner.nextLine();
-            }
-        }
+        String fechaNacimientoPersonaje = controller.ingresarStringRegex("Ingrese una fecha de nacimiento del personaje: ","[a-zA-Z0-9 ]+","Error, ingrese una fecha de nacimiento adecuada.");
 
         //Edad
-        int edadPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese la edad del personaje: ");
-                int edadPersonajeIngresado = scanner.nextInt();
-                if (edadPersonajeIngresado >= 0 && edadPersonajeIngresado <= 300) {
-                    scanner.nextLine();
-                    edadPersonaje = edadPersonajeIngresado;
-                    break;
-                } else {
-                    throw new InputMismatchException();
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ingrese una edad válida.");
-                scanner.nextLine();
-            }
-        }
+        int edadPersonaje = controller.ingresarInt("Ingrese la edad del personaje: ",0,300,"Ingrese una edad válida.");
 
         //Salud
-        double saludPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese la 'salud' del personaje: ");
-                int saludPersonajeIngresado = scanner.nextInt();
-                if (saludPersonajeIngresado > 0 && saludPersonajeIngresado < 9999) {
-                    scanner.nextLine();
-                    saludPersonaje = saludPersonajeIngresado;
-                    break;
-                } else {
-                    throw new InputMismatchException();
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ingrese una 'salud' adecuada.");
-                scanner.nextLine();
-            }
-        }
+        double saludPersonaje = controller.ingresarInt("Ingrese la 'salud' del personaje: ",1, 9999,"Ingrese una 'salud' adecuada.");
 
         //Velocidad
-        int velocidadPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese la velocidad del personaje: ");
-                int velocidadPersonajeIngresado = scanner.nextInt();
-                if (velocidadPersonajeIngresado >= 1 && velocidadPersonajeIngresado <= 10) {
-                    scanner.nextLine();
-                    velocidadPersonaje = velocidadPersonajeIngresado;
-                    break;
-                } else {
-                    throw new InputMismatchException();
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ingrese una velocidad adecuada.");
-                scanner.nextLine();
-            }
-        }
+        int velocidadPersonaje = controller.ingresarInt("Ingrese la velocidad del personaje: ",1,10,"Ingrese una velocidad adecuada.");
 
         //Destreza
-        int destrezaPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese la destreza del personaje: ");
-                int destrezaPersonajeIngresado = scanner.nextInt();
-                if (destrezaPersonajeIngresado >= 1 && destrezaPersonajeIngresado <= 5) {
-                    scanner.nextLine();
-                    destrezaPersonaje = destrezaPersonajeIngresado;
-                    break;
-                } else {
-                    throw new InputMismatchException();
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ingrese una destreza adecuada.");
-                scanner.nextLine();
-            }
-        }
+        int destrezaPersonaje = controller.ingresarInt("Ingrese la destreza del personaje: ",1,5,"Ingrese una destreza adecuada.");
 
         //Fuerza
-        int fuerzaPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese la fuerza del personaje: ");
-                int fuerzaPersonajeIngresado = scanner.nextInt();
-                if (fuerzaPersonajeIngresado >= 1 && fuerzaPersonajeIngresado <= 10) {
-                    scanner.nextLine();
-                    fuerzaPersonaje = fuerzaPersonajeIngresado;
-                    break;
-                } else {
-                    throw new InputMismatchException();
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ingrese una fuerza adecuada.");
-                scanner.nextLine();
-            }
-        }
+        int fuerzaPersonaje = controller.ingresarInt("Ingrese la fuerza del personaje: ",1,10,"Ingrese una fuerza adecuada.");
 
         //Nivel
-        int nivelPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese el nivel del personaje: ");
-                int nivelPersonajeIngresado = scanner.nextInt();
-                if (nivelPersonajeIngresado >= 1 && nivelPersonajeIngresado <= 10) {
-                    scanner.nextLine();
-                    nivelPersonaje = nivelPersonajeIngresado;
-                    break;
-                } else {
-                    throw new InputMismatchException();
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ingrese un nivel adecuado.");
-                scanner.nextLine();
-            }
-        }
+        int nivelPersonaje = controller.ingresarInt("Ingrese el nivel del personaje: ",1,10,"Ingrese un nivel adecuado.");
 
         //Armadura
-        int armaduraPersonaje;
-        while (true) {
-            try {
-                System.out.print("Ingrese la armadura del personaje: ");
-                int armaduraPersonajeIngresado = scanner.nextInt();
-                if (armaduraPersonajeIngresado >= 1 && armaduraPersonajeIngresado <= 10) {
-                    scanner.nextLine();
-                    armaduraPersonaje = armaduraPersonajeIngresado;
-                    break;
-                } else {
-                    throw new InputMismatchException();
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ingrese una armadura adecuada.");
-                scanner.nextLine();
-            }
-        }
+        int armaduraPersonaje = controller.ingresarInt("Ingrese la armadura del personaje: ",1,10,"Ingrese una armadura adecuada.");
 
         if (opcionSeleccionada == 1) {
             return new PersonajeOrco(nombrePersonaje, apodoPersonaje, fechaNacimientoPersonaje, edadPersonaje, saludPersonaje, velocidadPersonaje, destrezaPersonaje, fuerzaPersonaje, nivelPersonaje, armaduraPersonaje);
@@ -351,13 +197,12 @@ public class Main {
     }
 
     public static void iniciarPartida (ArrayList<Personajes> j1, ArrayList<Personajes> j2) {
-
         System.out.println();
         System.out.println("---------------------------------------------");
 
-        ArchivoManager archivoManager = new ArchivoManager();
         boolean terminoJuego=false;
         int ronda=0;
+        Controller controller = new Controller();
 
         while (!terminoJuego) {
             System.out.println("---------------------------------------------");
@@ -422,7 +267,7 @@ public class Main {
                         System.out.println("Ronda ganada por jugador 1");
                         if (j2.size()==1) {
                             int jugadorCampeon=1;
-                            archivoManager.mostrarFelicitaciones(jugadorCampeon);
+                            controller.mostrarFelicitaciones(jugadorCampeon);
                             terminoJuego=true;
                         }
                         else {
@@ -448,7 +293,7 @@ public class Main {
                         System.out.println("Ronda ganada por jugador 2");
                         if (j1.size()==1) {
                             int jugadorCampeon=2;
-                            archivoManager.mostrarFelicitaciones(jugadorCampeon);
+                            controller.mostrarFelicitaciones(jugadorCampeon);
                             terminoJuego=true;
                         }
                         else {
