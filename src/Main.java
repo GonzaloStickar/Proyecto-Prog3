@@ -23,7 +23,6 @@ public class Main {
                 int opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1 -> {
-                        //Genero NombresApodos
                         ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresRandom());
                         ArrayList<NombresApodos> apodosRandom = new ArrayList<>(crearApodosRandom(nombresRandom));
 
@@ -36,11 +35,10 @@ public class Main {
                         ArrayList<Personajes> personajesP1Coordinados = new ArrayList<>();
                         ArrayList<Personajes> personajesP2Coordinados = new ArrayList<>();
 
-                        for (int i=0;i<jugador1Personajes.size();i++) {
+                        for (int i=0;i<3;i++) {
                             personajesP1Coordinados.add((jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i))));
                             personajesP2Coordinados.add(jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i)));
                         }
-
                         iniciarPartida(personajesP1Coordinados,personajesP2Coordinados);
                     }
                     case 2-> {
@@ -93,32 +91,27 @@ public class Main {
         return dosDecimales.format(Math.abs(danio));
     }
 
-    public static ArrayList<NombresApodos> crearApodosRandom(ArrayList<NombresApodos> array) {
-        NombresApodos[] nombresApodos = NombresApodos.values();
+    public static Set<NombresApodos> crearApodosRandom(ArrayList<NombresApodos> array) {
+        Set<NombresApodos> setApodos = new HashSet<>(Set.of(NombresApodos.values()));
+        array.forEach(setApodos::remove);
+        Set<NombresApodos> setApodosNuevo = new HashSet<>();
 
-        ArrayList<NombresApodos> arrayListApodos = new ArrayList<>();
-        while (arrayListApodos.size()<6) {
-            int numeroRandom = (int)(Math.random()*nombresApodos.length);
-            for (NombresApodos apodo : array) {
-                if ((!arrayListApodos.contains(nombresApodos[numeroRandom]) && (!arrayListApodos.contains(apodo)))) {
-                    arrayListApodos.add(apodo);
-                }
-            }
+        while (setApodosNuevo.size()<6) {
+            int numeroRandom = (int)(Math.random()*setApodos.size());
+            setApodosNuevo.add(NombresApodos.values()[numeroRandom]);
         }
-        return arrayListApodos;
+        return setApodosNuevo;
     }
 
-    public static ArrayList<NombresApodos> crearNombresRandom() {
+    public static Set<NombresApodos> crearNombresRandom() {
         NombresApodos[] nombresApodos = NombresApodos.values();
+        Set<NombresApodos> setNombres = new HashSet<>();
 
-        ArrayList<NombresApodos> arrayListNombres = new ArrayList<>();
-        while (arrayListNombres.size()<6) {
+        while (setNombres.size()<6) {
             int numeroRandom = (int)(Math.random()*nombresApodos.length);
-            if (!arrayListNombres.contains(nombresApodos[numeroRandom])) {
-                arrayListNombres.add(nombresApodos[numeroRandom]);
-            }
+            setNombres.add(nombresApodos[numeroRandom]);
         }
-        return arrayListNombres;
+        return setNombres;
     }
 
     public static int crearNumeroEntreRangoRandom(int min, int max) {
@@ -128,8 +121,10 @@ public class Main {
 
     public static ArrayList<Personajes> crearPersonajes(ArrayList<NombresApodos> nombresRandom, ArrayList<NombresApodos> apodosRandom) {
         ArrayList<Personajes> personajesJugador = new ArrayList<>();
-        for (int i=0;i<3;i++) {
+
+        for (int i=0;i<nombresRandom.size();i++) {
             int personajeNumero = crearNumeroEntreRangoRandom(0,2);
+
             if (personajeNumero == 0) {
                 PersonajeHumano personajeHumano = new PersonajeHumano(nombresRandom.get(i),apodosRandom.get(i));
                 personajesJugador.add(personajeHumano);
@@ -366,8 +361,8 @@ public class Main {
 
         while (!terminoJuego) {
             System.out.println("---------------------------------------------");
-//            System.out.println("Cartas Jugador 1: "+j1.size());
-//            System.out.println("Cartas Jugador 2: "+j2.size());
+            System.out.println("Cartas Jugador 1: "+j1.size());
+            System.out.println("Cartas Jugador 2: "+j2.size());
             System.out.println();
 
             ronda+=1;
@@ -377,6 +372,9 @@ public class Main {
 
             double ataqueP1;
             double ataqueP2;
+
+            int iJ1 = crearNumeroEntreRangoRandom(0,j1.size()-1);
+            int iJ2 = crearNumeroEntreRangoRandom(0,j2.size()-1);
 
             System.out.println("Ronda "+ronda);
             System.out.println();
@@ -391,14 +389,18 @@ public class Main {
 
             while (true) {
 
-                ataqueP1 = ((AtaquePersonaje) j1.get(0)).atacar();
-                ataqueP2 = ((AtaquePersonaje) j2.get(0)).atacar();
+                //Entre un rango (posición 0 y el rango de cada "mazo"), creo un número aleatorio.
+                //Este número aleatorio puedo identificar la posición del personaje que se va a elegir
+                // para la siguiente ronda.
+
+                ataqueP1 = ((AtaquePersonaje) j1.get(iJ1)).atacar();
+                ataqueP2 = ((AtaquePersonaje) j2.get(iJ2)).atacar();
 
                 if (ataqueP1<=0) {
-                    ataqueP1 = ((AtaquePersonaje) j1.get(0)).atacar();
+                    ataqueP1 = ((AtaquePersonaje) j1.get(iJ1)).atacar();
                 }
                 if (ataqueP2<=0) {
-                    ataqueP2 = ((AtaquePersonaje) j2.get(0)).atacar();
+                    ataqueP2 = ((AtaquePersonaje) j2.get(iJ2)).atacar();
                 }
 
                 if (ataquesP1==0 || ataquesP2 ==0) {
@@ -411,11 +413,11 @@ public class Main {
 
                 if (turno==0) {
                     System.out.println("Ataca J1");
-                    System.out.println("J2 tiene una salud de: "+obtenerDosDecimales(j2.get(0).salud));
-                    System.out.println("J1 ataca al J2 con "+j1.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
+                    System.out.println("J2 tiene una salud de: "+obtenerDosDecimales(j2.get(iJ2).salud));
+                    System.out.println("J1 ataca al J2 con "+j1.get(iJ1).apodo+" con un daño de "+obtenerDosDecimales(ataqueP1));
                     System.out.println("(Ataques restantes:" + (ataquesP1-1) + ")");
 
-                    if (ataqueP1>j2.get(0).salud) {
+                    if (ataqueP1>j2.get(iJ2).salud) {
                         System.out.println();
                         System.out.println("Ronda ganada por jugador 1");
                         if (j2.size()==1) {
@@ -424,23 +426,24 @@ public class Main {
                             terminoJuego=true;
                         }
                         else {
-                            j2.remove(0);
+                            j2.remove(iJ2);
                         }
                         break;
                     }
                     else {
-                        j2.get(0).setSalud(ataqueP1);
+                        j2.get(iJ2).setSalud(ataqueP1);
+                        System.out.println("J2 tiene una salud restante de: "+j2.get(iJ2).salud);
                         ataquesP1-=1;
                     }
                     turno = 1;
                 }
                 else {
                     System.out.println("Ataca J2");
-                    System.out.println("J1 tiene una salud de: "+obtenerDosDecimales(j1.get(0).salud));
-                    System.out.println("J2 ataca al J1 con "+j2.get(0).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
+                    System.out.println("J1 tiene una salud de: "+obtenerDosDecimales(j1.get(iJ1).salud));
+                    System.out.println("J2 ataca al J1 con "+j2.get(iJ2).apodo+" con un daño de "+obtenerDosDecimales(ataqueP2));
                     System.out.println("(Ataques restantes:" + (ataquesP2-1) + ")");
 
-                    if (ataqueP2>j1.get(0).salud) {
+                    if (ataqueP2>j1.get(iJ1).salud) {
                         System.out.println();
                         System.out.println("Ronda ganada por jugador 2");
                         if (j1.size()==1) {
@@ -449,13 +452,13 @@ public class Main {
                             terminoJuego=true;
                         }
                         else {
-                            j1.remove(0);
+                            j1.remove(iJ1);
                         }
                         break;
                     }
                     else {
-
-                        j1.get(0).setSalud(ataqueP2);
+                        j1.get(iJ1).setSalud(ataqueP2);
+                        System.out.println("J1 tiene una salud restante de: "+j1.get(iJ1).salud);
                         ataquesP2-=1;
                     }
                     turno = 0;
