@@ -46,7 +46,8 @@ public class ArchivoManager {
     }
 
     public void eliminarlog() {
-        if (log.delete()) {
+        if (log.exists()) {
+            log.delete();
             System.out.println("'log' eliminado.");
         } else {
             System.out.println("No existe el archivo");
