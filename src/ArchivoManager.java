@@ -12,8 +12,7 @@ public class ArchivoManager {
             FileWriter writer = new FileWriter(log, true);
             BufferedWriter mejorRendimiento = new BufferedWriter(writer);
             mejorRendimiento.write(texto);
-            mejorRendimiento.newLine();
-            mejorRendimiento.write(texto);
+//            mejorRendimiento.newLine();
 
             mejorRendimiento.close();
             writer.close();

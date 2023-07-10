@@ -16,7 +16,7 @@ public class Controller {
         int numero;
         while (true) {
             try {
-                System.out.println(mensajeTry);
+                System.out.print(mensajeTry);
                 int numeroIngresado = scanner.nextInt();
                 if (numeroIngresado >= min && numeroIngresado <= max) {
                     scanner.nextLine();

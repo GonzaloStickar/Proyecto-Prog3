@@ -42,33 +42,30 @@ public class Main {
                         iniciarPartida(personajesP1Coordinados,personajesP2Coordinados);
                     }
                     case 2-> {
+                        Controller controller = new Controller();
                         ArrayList<Personajes> personajesIngresadoAManoP1 = new ArrayList<>();
                         ArrayList<Personajes> personajesIngresadoAManoP2 = new ArrayList<>();
 
+                        int personajeNum=0;
                         for (int i=0;i<6;i++) {
+                            personajeNum+=1;
 
-                            System.out.println("---Personaje "+(i+1)+"---");
+                            System.out.println("---Personaje "+personajeNum+"---");
                             //Ingresar datos de los personajes, a mano.
                             System.out.println("Que personaje quiere?");
                             System.out.println("1) Orco");
                             System.out.println("2) Elfo");
                             System.out.println("3) Humano");
+                            int opcionPersonaje = controller.ingresarInt("Elija uno de los personajes: ",1,3,"Ingresar un número correctamente.");
 
-                            try {
-                                System.out.print("Elija uno de los personajes: ");
-                                int opcionPersonaje = scanner.nextInt();
+                            if (opcionPersonaje==1 || opcionPersonaje==2 || opcionPersonaje==3) {
                                 Personajes personajeNuevo = crearPersonaje(opcionPersonaje);
 
-                                if (i==3) {
+                                if (personajesIngresadoAManoP1.size() == 3) {
                                     personajesIngresadoAManoP2.add(personajeNuevo);
-                                }
-                                else {
+                                } else {
                                     personajesIngresadoAManoP1.add(personajeNuevo);
                                 }
-                            }
-                            catch (InputMismatchException e) {
-                                System.out.println("Ingresar un número");
-                                scanner.next();
                             }
                         }
                         iniciarPartida(personajesIngresadoAManoP1,personajesIngresadoAManoP2);
@@ -80,7 +77,7 @@ public class Main {
                 }
             }
             catch (InputMismatchException e) {
-                System.out.println("Ingresar solamente un número");
+                System.out.println("Ingresar solamente un número.");
                 scanner.next();
             }
         }
