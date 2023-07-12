@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class ArchivoManager {
@@ -12,7 +9,7 @@ public class ArchivoManager {
             FileWriter writer = new FileWriter(log, true);
             BufferedWriter mejorRendimiento = new BufferedWriter(writer);
             mejorRendimiento.write(texto);
-//            mejorRendimiento.newLine();
+            //mejorRendimiento.newLine();
 
             mejorRendimiento.close();
             writer.close();
@@ -23,8 +20,13 @@ public class ArchivoManager {
     }
     public void eliminarContenidoLog() {
         try {
-            FileWriter log = new FileWriter("log.txt");
-            log.close();
+            if (!log.exists()) {
+                FileNoEncontrado();
+            }
+            else {
+                FileWriter log = new FileWriter("log.txt");
+                log.close();
+            }
         }
         catch (IOException e) {
             System.out.println("Ocurrió un error al ELIMINAR el contenido del archivo.");
@@ -33,10 +35,15 @@ public class ArchivoManager {
 
     public void mostrarContenidoLog() {
         try {
-            Scanner scannerLog = new Scanner(log);
-            while (scannerLog.hasNextLine()) {
-                String linea = scannerLog.nextLine();
-                System.out.println(linea);
+            if (!log.exists()) {
+                FileNoEncontrado();
+            }
+            else {
+                Scanner scannerLog = new Scanner(log);
+                while (scannerLog.hasNextLine()) {
+                    String linea = scannerLog.nextLine();
+                    System.out.println(linea);
+                }
             }
         }
         catch (IOException e) {
@@ -45,11 +52,15 @@ public class ArchivoManager {
     }
 
     public void eliminarlog() {
-        if (log.exists()) {
-            log.delete();
-            System.out.println("'log' eliminado.");
-        } else {
-            System.out.println("No existe el archivo");
+        if (log.delete()) { //Si existe el archivo, retorna 'true'.
+            System.out.println("Archivo 'log' eliminado.");
         }
+        else {
+            FileNoEncontrado();
+        }
+    }
+
+    public static void FileNoEncontrado() {
+        System.out.println("No existe el archivo.");
     }
 }

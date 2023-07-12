@@ -274,7 +274,7 @@ public class Main {
                     }
                     else {
                         j2.get(iJ2).setSalud(ataqueP1);
-                        System.out.println("J2 tiene una salud restante de: "+j2.get(iJ2).salud);
+                        System.out.println("J2 tiene una salud restante de: "+obtenerDosDecimales(j2.get(iJ2).salud));
                         ataquesP1-=1;
                     }
                     turno = 1;
@@ -300,7 +300,7 @@ public class Main {
                     }
                     else {
                         j1.get(iJ1).setSalud(ataqueP2);
-                        System.out.println("J1 tiene una salud restante de: "+j1.get(iJ1).salud);
+                        System.out.println("J1 tiene una salud restante de: "+obtenerDosDecimales(j1.get(iJ1).salud));
                         ataquesP2-=1;
                     }
                     turno = 0;
