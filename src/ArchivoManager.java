@@ -10,10 +10,8 @@ public class ArchivoManager {
         try {
             FileWriter writer = new FileWriter(log, true);
             BufferedWriter mejorRendimiento = new BufferedWriter(writer);
-
             mejorRendimiento.write(texto);
             mejorRendimiento.newLine();
-
             mejorRendimiento.close();
             writer.close();
         }
@@ -21,6 +19,7 @@ public class ArchivoManager {
             System.out.println("Ocurrió un error al ESCRIBIR en el archivo.");
         }
     }
+
     public void eliminarContenidoLog() {
         try {
             if (!log.exists()) {
@@ -71,7 +70,7 @@ public class ArchivoManager {
         int maxNumeroPartida=0;
         try {
             BufferedReader reader = new BufferedReader(new FileReader("log.txt"));
-            Pattern pattern = Pattern.compile("Se inicia la partida (\\d+)");
+            Pattern pattern = Pattern.compile("Partida (\\d+)");
             Matcher matcher;
             if (!log.exists()) {
                 fileNoEncontrado();

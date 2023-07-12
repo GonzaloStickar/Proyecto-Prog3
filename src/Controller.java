@@ -6,10 +6,20 @@ public class Controller {
     public void mostrarFelicitaciones(int jugador) {
         System.out.println();
         System.out.println("==============================================================================");
-        System.out.println("                          Felicitaciones!!!");
+        System.out.println("                       ¡¡¡Felicitaciones!!!");
         System.out.println(" Terminó el juego, el ganador y merecedor del Trono de Hierro es el jugador "+jugador);
         System.out.println("==============================================================================");
         System.out.println();
+    }
+
+    public void aniadirTextoFelicitaciones (int jugador) {
+        Main.archivo.aniadirTexto("");
+        Main.archivo.aniadirTexto("==============================================================================");
+        Main.archivo.aniadirTexto("                     ¡¡¡Felicitaciones Jugador "+jugador+"!!!");
+        Main.archivo.aniadirTexto("       Terminó el juego. eres el ganador y merecedor del Trono de Hierro");
+        Main.archivo.aniadirTexto("                     las fuerzas mágicas del universo luz te abrazan!");
+        Main.archivo.aniadirTexto("==============================================================================");
+        Main.archivo.aniadirTexto("");
     }
 
     public int ingresarInt (String mensajeTry, double min, double max, String mensajeException) {

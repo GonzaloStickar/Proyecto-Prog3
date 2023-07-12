@@ -3,9 +3,10 @@ import java.util.*;
 
 public class Main {
 
+    public static ArchivoManager archivo = new ArchivoManager();
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArchivoManager archivo = new ArchivoManager();
         //archivo.aniadirTexto("hola");
 
         boolean finalizar = false;
@@ -23,11 +24,13 @@ public class Main {
                 int opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1 -> {
+                        iniciarPartidaLog();
+
                         ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresRandom());
                         ArrayList<NombresApodos> apodosRandom = new ArrayList<>(crearApodosRandom(nombresRandom));
 
-                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajesJ1(nombresRandom, apodosRandom));
-                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajesJ2(nombresRandom, apodosRandom));
+                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom,0));
+                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom,3));
 
                         ArrayList<Integer> ordenJuegoJugador1Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
                         ArrayList<Integer> ordenJuegoJugador2Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
@@ -36,6 +39,7 @@ public class Main {
                         ArrayList<Personajes> personajesP2Coordinados = new ArrayList<>();
 
                         archivo.aniadirTexto("Se generaron 6 personajes");
+                        archivo.aniadirTexto("");
                         for (int i=0;i<3;i++) {
                             archivo.aniadirTexto("--------Personaje " + i +" Jugador 1-------");
                             personajesP1Coordinados.add(jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i)));
@@ -45,10 +49,11 @@ public class Main {
                             personajesP2Coordinados.add(jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i)));
                         }
                         archivo.aniadirTexto("");
-                        archivo.aniadirTexto("Se inicia la partida "+archivo.buscarPartidaX());
                         iniciarPartida(personajesP1Coordinados,personajesP2Coordinados);
                     }
                     case 2-> {
+                        iniciarPartidaLog();
+
                         Controller controller = new Controller();
                         ArrayList<Personajes> personajesIngresadoAManoP1 = new ArrayList<>();
                         ArrayList<Personajes> personajesIngresadoAManoP2 = new ArrayList<>();
@@ -123,10 +128,17 @@ public class Main {
         return random.nextInt(max - min + 1) + min;
     }
 
-    public static ArrayList<Personajes> crearPersonajesJ1(ArrayList<NombresApodos> nombresRandom, ArrayList<NombresApodos> apodosRandom) {
+    public static ArrayList<Personajes> crearPersonajes(ArrayList<NombresApodos> nombresRandom, ArrayList<NombresApodos> apodosRandom,int indicador) {
         ArrayList<Personajes> personajesJugador = new ArrayList<>();
+        int j;
 
-        for (int i=0;i<3;i++) {
+        if (indicador==0) {
+            j=3;
+        }
+        else {
+            j=6;
+        }
+        for (int i=indicador;i<j;i++) {
             int personajeNumero = crearNumeroEntreRangoRandom(0,2);
 
             if (personajeNumero == 0) {
@@ -142,29 +154,9 @@ public class Main {
                 personajesJugador.add(personajeElfo);
             }
         }
+        System.out.println(personajesJugador);
         return personajesJugador;
-    }
 
-    public static ArrayList<Personajes> crearPersonajesJ2(ArrayList<NombresApodos> nombresRandom, ArrayList<NombresApodos> apodosRandom) {
-        ArrayList<Personajes> personajesJugador = new ArrayList<>();
-
-        for (int i=3;i<6;i++) {
-            int personajeNumero = crearNumeroEntreRangoRandom(0,2);
-
-            if (personajeNumero == 0) {
-                PersonajeHumano personajeHumano = new PersonajeHumano(nombresRandom.get(i),apodosRandom.get(i));
-                personajesJugador.add(personajeHumano);
-            }
-            else if (personajeNumero == 1) {
-                PersonajeOrco personajeOrco = new PersonajeOrco(nombresRandom.get(i),apodosRandom.get(i));
-                personajesJugador.add(personajeOrco);
-            }
-            else {
-                PersonajeElfo personajeElfo = new PersonajeElfo(nombresRandom.get(i),apodosRandom.get(i));
-                personajesJugador.add(personajeElfo);
-            }
-        }
-        return personajesJugador;
     }
 
     public static ArrayList<Integer> crearListaOrdenRandomPersonajesJugadores() {
@@ -224,19 +216,24 @@ public class Main {
 
     public static void iniciarPartida (ArrayList<Personajes> j1, ArrayList<Personajes> j2) {
         System.out.println();
-        System.out.println("---------------------------------------------");
 
         boolean terminoJuego=false;
         int ronda=0;
         Controller controller = new Controller();
 
         while (!terminoJuego) {
-            System.out.println("---------------------------------------------");
+            archivo.aniadirTexto("------------------------------------------------------------------------------");
+
+            System.out.println("------------------------------------------------------------------------------");
             System.out.println("Cartas Jugador 1: "+j1.size());
             System.out.println("Cartas Jugador 2: "+j2.size());
             System.out.println();
 
             ronda+=1;
+            archivo.aniadirTexto("Ronda "+ronda);
+            archivo.aniadirTexto("");
+            System.out.println("Ronda "+ronda);
+            System.out.println();
 
             int ataquesP1= 7;
             int ataquesP2= 7;
@@ -247,14 +244,21 @@ public class Main {
             int iJ1 = crearNumeroEntreRangoRandom(0,j1.size()-1);
             int iJ2 = crearNumeroEntreRangoRandom(0,j2.size()-1);
 
-            System.out.println("Ronda "+ronda);
-            System.out.println();
             int turno = crearNumeroEntreRangoRandom(0,1);
 
             if (turno==0) {
+                archivo.aniadirTexto("El sistema sorteó al Jugador 1 para iniciar la ronda");
+                archivo.aniadirTexto("");
+                archivo.aniadirTexto("El sistema eligió al personaje "+j1.get(iJ1).nombre+" del jugador 1 y al personaje "+j2.get(iJ2).nombre+" del jugador dos para que se enfrenten en esta ronda.");
+                archivo.aniadirTexto("");
+
                 System.out.println("Empieza atacando el jugador 1");
             }
             else {
+                archivo.aniadirTexto("El sistema sorteó al Jugador 2 para iniciar la ronda");
+                archivo.aniadirTexto("");
+                archivo.aniadirTexto("El sistema eligió al personaje "+j2.get(iJ2).nombre+" del jugador 2 y al personaje "+j1.get(iJ1).nombre+" del jugador uno para que se enfrenten en esta ronda.");
+                archivo.aniadirTexto("");
                 System.out.println("Empieza atacando el jugador 2");
             }
 
@@ -289,20 +293,43 @@ public class Main {
                     System.out.println("(Ataques restantes:" + (ataquesP1-1) + ")");
 
                     if (ataqueP1>j2.get(iJ2).salud) {
+                        archivo.aniadirTexto(j1.get(iJ1).apodo+" ("+j1.get(iJ1).nombre+") realiza un ataque FINAL a "+j2.get(iJ2).apodo+" ("+j2.get(iJ2).nombre+") y le quita sus  "+obtenerDosDecimales(j2.get(iJ2).salud)+" puntos de salud restantes.");
+                        archivo.aniadirTexto("");
+                        archivo.aniadirTexto("La ronda es ganada por por jugador 1");
+                        archivo.aniadirTexto("");
+
                         System.out.println();
                         System.out.println("Ronda ganada por jugador 1");
+
                         if (j2.size()==1) {
-                            int jugadorCampeon=1;
-                            controller.mostrarFelicitaciones(jugadorCampeon);
+                            if (j1.size()==1) {
+                                archivo.aniadirTexto("Gana Jugador 1, le quedó vivo el siguiente personaje:");
+                            }
+                            else {
+                                archivo.aniadirTexto("Gana Jugador 1, le quedaron vivos los siguientes personajes:");
+                            }
+
+                            for (Personajes personaje : j1) {
+                                archivo.aniadirTexto(personaje.nombre+" con "+obtenerDosDecimales(personaje.salud)+" de salud.");
+                            }
+                            controller.mostrarFelicitaciones(1);
+                            controller.aniadirTextoFelicitaciones(1);
                             terminoJuego=true;
                         }
                         else {
+                            archivo.aniadirTexto("Muere "+j2.get(iJ2).apodo);
+                            archivo.aniadirTexto("");
+                            archivo.aniadirTexto("J1 recibe una recompensa de 10 puntos de salud!.");
+
+                            System.out.println("J1 recibe una recompensa de 10 puntos de salud!.");
+                            j1.get(iJ1).premioPorGanar();
                             j2.remove(iJ2);
                         }
                         break;
                     }
                     else {
                         j2.get(iJ2).setSalud(ataqueP1);
+                        archivo.aniadirTexto(j1.get(iJ1).apodo+" ("+j1.get(iJ1).nombre+") ataca a "+j2.get(iJ2).apodo+" ("+j2.get(iJ2).nombre+") y le quita "+obtenerDosDecimales(ataqueP1)+" de salud. "+j2.get(iJ2).apodo+" queda con "+obtenerDosDecimales(j2.get(iJ2).salud)+" de salud.");
                         System.out.println("J2 tiene una salud restante de: "+obtenerDosDecimales(j2.get(iJ2).salud));
                         ataquesP1-=1;
                     }
@@ -315,28 +342,57 @@ public class Main {
                     System.out.println("(Ataques restantes:" + (ataquesP2-1) + ")");
 
                     if (ataqueP2>j1.get(iJ1).salud) {
+                        archivo.aniadirTexto(j2.get(iJ2).apodo+" ("+j2.get(iJ2).nombre+") realiza un ataque FINAL a "+j1.get(iJ1).apodo+" ("+j1.get(iJ1).nombre+") y le quita sus "+obtenerDosDecimales(j1.get(iJ1).salud)+" puntos de salud restantes.");
+                        archivo.aniadirTexto("");
+                        archivo.aniadirTexto("La ronda es ganada por jugador 2");
+                        archivo.aniadirTexto("");
+
                         System.out.println();
                         System.out.println("Ronda ganada por jugador 2");
                         if (j1.size()==1) {
-                            int jugadorCampeon=2;
-                            controller.mostrarFelicitaciones(jugadorCampeon);
+                            if (j2.size()==1) {
+                                archivo.aniadirTexto("Gana Jugador 2, le quedó vivo el siguiente personaje:");
+                            }
+                            else {
+                                archivo.aniadirTexto("Gana Jugador 2, le quedaron vivos los siguientes personajes:");
+                            }
+
+                            for (Personajes personaje : j2) {
+                                archivo.aniadirTexto("-   "+personaje.nombre+" con "+obtenerDosDecimales(personaje.salud)+" de salud.");
+                            }
+                            controller.mostrarFelicitaciones(2);
+                            controller.aniadirTextoFelicitaciones(2);
                             terminoJuego=true;
                         }
                         else {
+                            archivo.aniadirTexto("Muere "+j1.get(iJ1).apodo);
+                            archivo.aniadirTexto("");
+                            archivo.aniadirTexto("J2 recibe una recompensa de 10 puntos de salud!.");
+
+                            System.out.println("J2 recibe una recompensa de 10 puntos de salud!.");
+                            j2.get(iJ2).premioPorGanar();
                             j1.remove(iJ1);
                         }
                         break;
                     }
                     else {
                         j1.get(iJ1).setSalud(ataqueP2);
+                        archivo.aniadirTexto(j2.get(iJ2).apodo+" ("+j2.get(iJ2).nombre+") ataca a "+j1.get(iJ1).apodo+" ("+j1.get(iJ1).nombre+") y le quita "+obtenerDosDecimales(ataqueP2)+" de salud. "+j1.get(iJ1).apodo+" queda con "+obtenerDosDecimales(j1.get(iJ1).salud)+" de salud.");
                         System.out.println("J1 tiene una salud restante de: "+obtenerDosDecimales(j1.get(iJ1).salud));
                         ataquesP2-=1;
                     }
                     turno = 0;
                 }
             }
-            System.out.println("---------------------------------------------");
+            archivo.aniadirTexto("------------------------------------------------------------------------------");
+            archivo.aniadirTexto("");
+            System.out.println("------------------------------------------------------------------------------");
             System.out.println();
         }
+    }
+
+    public static void iniciarPartidaLog() {
+        archivo.aniadirTexto("Partida "+archivo.buscarPartidaX());
+        archivo.aniadirTexto("");
     }
 }

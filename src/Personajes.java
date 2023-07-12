@@ -84,4 +84,13 @@ public abstract class Personajes {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
     }
+
+    public void premioPorGanar() {
+        if (this.salud<90) {
+            this.salud=this.salud+10;
+        }
+        else {
+            this.salud=100;
+        }
+    }
 }
