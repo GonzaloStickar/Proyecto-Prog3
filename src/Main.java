@@ -26,8 +26,8 @@ public class Main {
                         ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresRandom());
                         ArrayList<NombresApodos> apodosRandom = new ArrayList<>(crearApodosRandom(nombresRandom));
 
-                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
-                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom));
+                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajesJ1(nombresRandom, apodosRandom));
+                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajesJ2(nombresRandom, apodosRandom));
 
                         ArrayList<Integer> ordenJuegoJugador1Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
                         ArrayList<Integer> ordenJuegoJugador2Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
@@ -35,10 +35,17 @@ public class Main {
                         ArrayList<Personajes> personajesP1Coordinados = new ArrayList<>();
                         ArrayList<Personajes> personajesP2Coordinados = new ArrayList<>();
 
+                        archivo.aniadirTexto("Se generaron 6 personajes");
                         for (int i=0;i<3;i++) {
-                            personajesP1Coordinados.add((jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i))));
+                            archivo.aniadirTexto("--------Personaje " + i +" Jugador 1-------");
+                            personajesP1Coordinados.add(jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i)));
+                        }
+                        for (int i=0;i<3;i++) {
+                            archivo.aniadirTexto("--------Personaje " + i +" Jugador 2-------");
                             personajesP2Coordinados.add(jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i)));
                         }
+                        archivo.aniadirTexto("");
+                        archivo.aniadirTexto("Se inicia la partida "+archivo.buscarPartidaX());
                         iniciarPartida(personajesP1Coordinados,personajesP2Coordinados);
                     }
                     case 2-> {
@@ -116,10 +123,32 @@ public class Main {
         return random.nextInt(max - min + 1) + min;
     }
 
-    public static ArrayList<Personajes> crearPersonajes(ArrayList<NombresApodos> nombresRandom, ArrayList<NombresApodos> apodosRandom) {
+    public static ArrayList<Personajes> crearPersonajesJ1(ArrayList<NombresApodos> nombresRandom, ArrayList<NombresApodos> apodosRandom) {
         ArrayList<Personajes> personajesJugador = new ArrayList<>();
 
-        for (int i=0;i<nombresRandom.size();i++) {
+        for (int i=0;i<3;i++) {
+            int personajeNumero = crearNumeroEntreRangoRandom(0,2);
+
+            if (personajeNumero == 0) {
+                PersonajeHumano personajeHumano = new PersonajeHumano(nombresRandom.get(i),apodosRandom.get(i));
+                personajesJugador.add(personajeHumano);
+            }
+            else if (personajeNumero == 1) {
+                PersonajeOrco personajeOrco = new PersonajeOrco(nombresRandom.get(i),apodosRandom.get(i));
+                personajesJugador.add(personajeOrco);
+            }
+            else {
+                PersonajeElfo personajeElfo = new PersonajeElfo(nombresRandom.get(i),apodosRandom.get(i));
+                personajesJugador.add(personajeElfo);
+            }
+        }
+        return personajesJugador;
+    }
+
+    public static ArrayList<Personajes> crearPersonajesJ2(ArrayList<NombresApodos> nombresRandom, ArrayList<NombresApodos> apodosRandom) {
+        ArrayList<Personajes> personajesJugador = new ArrayList<>();
+
+        for (int i=3;i<6;i++) {
             int personajeNumero = crearNumeroEntreRangoRandom(0,2);
 
             if (personajeNumero == 0) {
