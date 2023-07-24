@@ -27,8 +27,6 @@ public class Main {
 
                         ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresRandom());
                         ArrayList<NombresApodos> apodosRandom = new ArrayList<>(crearApodosRandom(nombresRandom));
-                        System.out.println(nombresRandom);
-                        System.out.println(apodosRandom);
 
                         archivo.aniadirTexto("Se generaron 6 personajes");
                         archivo.aniadirTexto("");
@@ -50,7 +48,6 @@ public class Main {
                             personajeNum+=1;
 
                             System.out.println("---Personaje "+personajeNum+"---");
-                            //Ingresar datos de los personajes, a mano.
                             System.out.println("Que personaje quiere?");
                             System.out.println("1) Orco");
                             System.out.println("2) Elfo");
