@@ -7,7 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        //archivo.aniadirTexto("hola");
 
         boolean finalizar = false;
         while (!finalizar) {
@@ -28,28 +27,16 @@ public class Main {
 
                         ArrayList<NombresApodos> nombresRandom = new ArrayList<>(crearNombresRandom());
                         ArrayList<NombresApodos> apodosRandom = new ArrayList<>(crearApodosRandom(nombresRandom));
-
-                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom,0));
-                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom,3));
-
-                        ArrayList<Integer> ordenJuegoJugador1Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
-                        ArrayList<Integer> ordenJuegoJugador2Personajes = new ArrayList<>(crearListaOrdenRandomPersonajesJugadores());
-
-                        ArrayList<Personajes> personajesP1Coordinados = new ArrayList<>();
-                        ArrayList<Personajes> personajesP2Coordinados = new ArrayList<>();
+                        System.out.println(nombresRandom);
+                        System.out.println(apodosRandom);
 
                         archivo.aniadirTexto("Se generaron 6 personajes");
                         archivo.aniadirTexto("");
-                        for (int i=0;i<3;i++) {
-                            archivo.aniadirTexto("--------Personaje " + i +" Jugador 1-------");
-                            personajesP1Coordinados.add(jugador1Personajes.get(ordenJuegoJugador1Personajes.get(i)));
-                        }
-                        for (int i=0;i<3;i++) {
-                            archivo.aniadirTexto("--------Personaje " + i +" Jugador 2-------");
-                            personajesP2Coordinados.add(jugador2Personajes.get(ordenJuegoJugador2Personajes.get(i)));
-                        }
+                        ArrayList<Personajes> jugador1Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom,0));
+                        ArrayList<Personajes> jugador2Personajes = new ArrayList<>(crearPersonajes(nombresRandom, apodosRandom,3));
                         archivo.aniadirTexto("");
-                        iniciarPartida(personajesP1Coordinados,personajesP2Coordinados);
+
+                        iniciarPartida(jugador1Personajes,jugador2Personajes);
                     }
                     case 2-> {
                         iniciarPartidaLog();
@@ -100,27 +87,34 @@ public class Main {
         return dosDecimales.format(Math.abs(danio));
     }
 
-    public static Set<NombresApodos> crearApodosRandom(ArrayList<NombresApodos> array) {
-        Set<NombresApodos> setApodos = new HashSet<>(Set.of(NombresApodos.values()));
-        array.forEach(setApodos::remove);
-        Set<NombresApodos> setApodosNuevo = new HashSet<>();
-
-        while (setApodosNuevo.size()<6) {
-            int numeroRandom = (int)(Math.random()*setApodos.size());
-            setApodosNuevo.add(NombresApodos.values()[numeroRandom]);
+    public static ArrayList<NombresApodos> crearApodosRandom(ArrayList<NombresApodos> array) {
+        ArrayList<NombresApodos> apodos = new ArrayList<>(Arrays.asList(NombresApodos.values()));
+        for (NombresApodos nombre : array) {
+            apodos.remove(nombre);
         }
-        return setApodosNuevo;
+
+        ArrayList<NombresApodos> arrayApodos = new ArrayList<>();
+
+        while (arrayApodos.size()<6) {
+            int numeroRandom = (int)(Math.random()*apodos.size());
+            if (!arrayApodos.contains(apodos.get(numeroRandom))) {
+                arrayApodos.add(apodos.get(numeroRandom));
+            }
+        }
+        return arrayApodos;
     }
 
-    public static Set<NombresApodos> crearNombresRandom() {
-        NombresApodos[] nombresApodos = NombresApodos.values();
-        Set<NombresApodos> setNombres = new HashSet<>();
+    public static ArrayList<NombresApodos> crearNombresRandom() {
+        ArrayList<NombresApodos> nombres = new ArrayList<>(Arrays.asList(NombresApodos.values()));
+        ArrayList<NombresApodos> arrayNombres = new ArrayList<>();
 
-        while (setNombres.size()<6) {
-            int numeroRandom = (int)(Math.random()*nombresApodos.length);
-            setNombres.add(nombresApodos[numeroRandom]);
+        while (arrayNombres.size()<6) {
+            int numeroRandom = (int)(Math.random()*nombres.size());
+            if (!arrayNombres.contains(nombres.get(numeroRandom))) {
+                arrayNombres.add(nombres.get(numeroRandom));
+            }
         }
-        return setNombres;
+        return arrayNombres;
     }
 
     public static int crearNumeroEntreRangoRandom(int min, int max) {
@@ -131,14 +125,25 @@ public class Main {
     public static ArrayList<Personajes> crearPersonajes(ArrayList<NombresApodos> nombresRandom, ArrayList<NombresApodos> apodosRandom,int indicador) {
         ArrayList<Personajes> personajesJugador = new ArrayList<>();
         int j;
+        int jugadorInt;
 
         if (indicador==0) {
+            jugadorInt = 1;
             j=3;
         }
         else {
+            jugadorInt = 2;
             j=6;
         }
+
         for (int i=indicador;i<j;i++) {
+            if (i==0) {
+                archivo.aniadirTexto("--------Personaje " + (i+1) +" Jugador "+jugadorInt+": "+apodosRandom.get(i)+"-------");
+            }
+            else {
+                archivo.aniadirTexto("--------Personaje " + (i+1) +" Jugador "+jugadorInt+": "+apodosRandom.get(i)+"-------");
+            }
+
             int personajeNumero = crearNumeroEntreRangoRandom(0,2);
 
             if (personajeNumero == 0) {
@@ -154,20 +159,7 @@ public class Main {
                 personajesJugador.add(personajeElfo);
             }
         }
-        System.out.println(personajesJugador);
         return personajesJugador;
-
-    }
-
-    public static ArrayList<Integer> crearListaOrdenRandomPersonajesJugadores() {
-        ArrayList<Integer> array = new ArrayList<>();
-        while (array.size()<3) {
-            int numero = crearNumeroEntreRangoRandom(0,2);
-            if (!array.contains(numero)) {
-                array.add(numero);
-            }
-        }
-        return array;
     }
 
     public static Personajes crearPersonaje (int opcionSeleccionada) {
@@ -238,9 +230,6 @@ public class Main {
             int ataquesP1= 7;
             int ataquesP2= 7;
 
-            double ataqueP1;
-            double ataqueP2;
-
             int iJ1 = crearNumeroEntreRangoRandom(0,j1.size()-1);
             int iJ2 = crearNumeroEntreRangoRandom(0,j2.size()-1);
 
@@ -249,41 +238,32 @@ public class Main {
             if (turno==0) {
                 archivo.aniadirTexto("El sistema sorteó al Jugador 1 para iniciar la ronda");
                 archivo.aniadirTexto("");
-                archivo.aniadirTexto("El sistema eligió al personaje "+j1.get(iJ1).nombre+" del jugador 1 y al personaje "+j2.get(iJ2).nombre+" del jugador dos para que se enfrenten en esta ronda.");
+                archivo.aniadirTexto("El sistema eligió al personaje "+j1.get(iJ1).nombre+" del jugador 1 y al personaje "+j2.get(iJ2).nombre+" del jugador 2 para que se enfrenten en esta ronda.");
                 archivo.aniadirTexto("");
-
                 System.out.println("Empieza atacando el jugador 1");
             }
             else {
                 archivo.aniadirTexto("El sistema sorteó al Jugador 2 para iniciar la ronda");
                 archivo.aniadirTexto("");
-                archivo.aniadirTexto("El sistema eligió al personaje "+j2.get(iJ2).nombre+" del jugador 2 y al personaje "+j1.get(iJ1).nombre+" del jugador uno para que se enfrenten en esta ronda.");
+                archivo.aniadirTexto("El sistema eligió al personaje "+j2.get(iJ2).nombre+" del jugador 2 y al personaje "+j1.get(iJ1).nombre+" del jugador 1 para que se enfrenten en esta ronda.");
                 archivo.aniadirTexto("");
                 System.out.println("Empieza atacando el jugador 2");
             }
 
             while (true) {
-
                 //Entre un rango (posición 0 y el rango de cada "mazo"), creo un número aleatorio.
                 //Este número aleatorio puedo identificar la posición del personaje que se va a elegir
                 // para la siguiente ronda.
 
-                ataqueP1 = ((AtaquePersonaje) j1.get(iJ1)).atacar();
-                ataqueP2 = ((AtaquePersonaje) j2.get(iJ2)).atacar();
+                double ataqueP1 = Math.abs(((AtaquePersonaje) j1.get(iJ1)).atacar());
+                double ataqueP2 = Math.abs(((AtaquePersonaje) j2.get(iJ2)).atacar());
 
-                if (ataqueP1<=0) {
-                    ataqueP1 = ((AtaquePersonaje) j1.get(iJ1)).atacar();
-                }
-                if (ataqueP2<=0) {
-                    ataqueP2 = ((AtaquePersonaje) j2.get(iJ2)).atacar();
+                if (ataquesP1==0 && ataquesP2==0) {
+                    archivo.aniadirTexto("");
+                    archivo.aniadirTexto("Jugadores 1 y 2, se quedaron sin ataques.");
+                    break;
                 }
 
-                if (ataquesP1==0 || ataquesP2 ==0) {
-                    break; //Vuelve a empezar una nueva ronda independientemente
-                    // de quien haya ganado. Si gana la ronda el J1, y el J2
-                    // tenía un ataque más, no va a ser posible que lo realice, ya que
-                    // el J1 ganó la mano.
-                }
                 System.out.println();
 
                 if (turno==0) {
