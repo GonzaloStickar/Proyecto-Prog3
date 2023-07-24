@@ -23,6 +23,7 @@ public class Controller {
     }
 
     public void aniadirTextoPersonajesRestantes (ArrayList<Personajes> jugador, int intJugador) {
+        Main.archivo.aniadirTexto("");
         if (jugador.size()==1) {
             Main.archivo.aniadirTexto("Gana Jugador "+intJugador+", le quedó vivo el siguiente personaje:");
         }
@@ -32,6 +33,7 @@ public class Controller {
         for (Personajes personaje : jugador) {
             Main.archivo.aniadirTexto("-   "+personaje.nombre+" con "+Main.obtenerDosDecimales(personaje.salud)+" de salud.");
         }
+        Main.archivo.aniadirTexto("");
     }
 
     public int ingresarInt (String mensajeTry, double min, double max, String mensajeException) {

@@ -273,7 +273,6 @@ public class Main {
                         archivo.aniadirTexto(j1.get(iJ1).apodo+" ("+j1.get(iJ1).nombre+") realiza un ataque FINAL a "+j2.get(iJ2).apodo+" ("+j2.get(iJ2).nombre+") y le quita sus  "+obtenerDosDecimales(j2.get(iJ2).salud)+" puntos de salud restantes.");
                         archivo.aniadirTexto("");
                         archivo.aniadirTexto("La ronda es ganada por por jugador 1");
-                        archivo.aniadirTexto("");
 
                         System.out.println();
                         System.out.println("Ronda ganada por jugador 1");
@@ -287,7 +286,6 @@ public class Main {
                         else {
                             controller.aniadirTextoPersonajesRestantes(j1,1);
 
-                            archivo.aniadirTexto("");
                             archivo.aniadirTexto("Muere "+j2.get(iJ2).apodo);
                             archivo.aniadirTexto("");
                             archivo.aniadirTexto("J1 recibe una recompensa de 10 puntos de salud!.");
@@ -316,7 +314,6 @@ public class Main {
                         archivo.aniadirTexto(j2.get(iJ2).apodo+" ("+j2.get(iJ2).nombre+") realiza un ataque FINAL a "+j1.get(iJ1).apodo+" ("+j1.get(iJ1).nombre+") y le quita sus "+obtenerDosDecimales(j1.get(iJ1).salud)+" puntos de salud restantes.");
                         archivo.aniadirTexto("");
                         archivo.aniadirTexto("La ronda es ganada por jugador 2");
-                        archivo.aniadirTexto("");
 
                         System.out.println();
                         System.out.println("Ronda ganada por jugador 2");
@@ -330,7 +327,6 @@ public class Main {
                         else {
                             controller.aniadirTextoPersonajesRestantes(j2,2);
 
-                            archivo.aniadirTexto("");
                             archivo.aniadirTexto("Muere "+j1.get(iJ1).apodo);
                             archivo.aniadirTexto("");
                             archivo.aniadirTexto("J2 recibe una recompensa de 10 puntos de salud!.");
