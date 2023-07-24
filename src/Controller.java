@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -13,13 +14,24 @@ public class Controller {
     }
 
     public void aniadirTextoFelicitaciones (int jugador) {
-        Main.archivo.aniadirTexto("");
         Main.archivo.aniadirTexto("==============================================================================");
         Main.archivo.aniadirTexto("                     ¡¡¡Felicitaciones Jugador "+jugador+"!!!");
         Main.archivo.aniadirTexto("       Terminó el juego. eres el ganador y merecedor del Trono de Hierro");
         Main.archivo.aniadirTexto("                     las fuerzas mágicas del universo luz te abrazan!");
         Main.archivo.aniadirTexto("==============================================================================");
         Main.archivo.aniadirTexto("");
+    }
+
+    public void aniadirTextoPersonajesRestantes (ArrayList<Personajes> jugador, int intJugador) {
+        if (jugador.size()==1) {
+            Main.archivo.aniadirTexto("Gana Jugador "+intJugador+", le quedó vivo el siguiente personaje:");
+        }
+        else {
+            Main.archivo.aniadirTexto("Gana Jugador " + intJugador + ", le quedaron vivos los siguientes personajes:");
+        }
+        for (Personajes personaje : jugador) {
+            Main.archivo.aniadirTexto("-   "+personaje.nombre+" con "+Main.obtenerDosDecimales(personaje.salud)+" de salud.");
+        }
     }
 
     public int ingresarInt (String mensajeTry, double min, double max, String mensajeException) {
