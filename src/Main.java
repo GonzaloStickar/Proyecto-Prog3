@@ -273,12 +273,16 @@ public class Main {
                         archivo.aniadirTexto(j1.get(iJ1).apodo+" ("+j1.get(iJ1).nombre+") realiza un ataque FINAL a "+j2.get(iJ2).apodo+" ("+j2.get(iJ2).nombre+") y le quita sus  "+obtenerDosDecimales(j2.get(iJ2).salud)+" puntos de salud restantes.");
                         archivo.aniadirTexto("");
                         archivo.aniadirTexto("La ronda es ganada por por jugador 1");
-                        archivo.aniadirTexto("");
 
                         System.out.println();
                         System.out.println("Ronda ganada por jugador 1");
 
                         if (j2.size()==1) {
+                            controller.mostrarFelicitaciones(1);
+                            controller.aniadirTextoFelicitaciones(1);
+                            terminoJuego=true;
+                        }
+                        else {
                             if (j1.size()==1) {
                                 archivo.aniadirTexto("Gana Jugador 1, le quedó vivo el siguiente personaje:");
                             }
@@ -287,13 +291,10 @@ public class Main {
                             }
 
                             for (Personajes personaje : j1) {
-                                archivo.aniadirTexto(personaje.nombre+" con "+obtenerDosDecimales(personaje.salud)+" de salud.");
+                                archivo.aniadirTexto("-   "+personaje.nombre+" con "+obtenerDosDecimales(personaje.salud)+" de salud.");
                             }
-                            controller.mostrarFelicitaciones(1);
-                            controller.aniadirTextoFelicitaciones(1);
-                            terminoJuego=true;
-                        }
-                        else {
+
+                            archivo.aniadirTexto("");
                             archivo.aniadirTexto("Muere "+j2.get(iJ2).apodo);
                             archivo.aniadirTexto("");
                             archivo.aniadirTexto("J1 recibe una recompensa de 10 puntos de salud!.");
@@ -322,11 +323,15 @@ public class Main {
                         archivo.aniadirTexto(j2.get(iJ2).apodo+" ("+j2.get(iJ2).nombre+") realiza un ataque FINAL a "+j1.get(iJ1).apodo+" ("+j1.get(iJ1).nombre+") y le quita sus "+obtenerDosDecimales(j1.get(iJ1).salud)+" puntos de salud restantes.");
                         archivo.aniadirTexto("");
                         archivo.aniadirTexto("La ronda es ganada por jugador 2");
-                        archivo.aniadirTexto("");
 
                         System.out.println();
                         System.out.println("Ronda ganada por jugador 2");
                         if (j1.size()==1) {
+                            controller.mostrarFelicitaciones(2);
+                            controller.aniadirTextoFelicitaciones(2);
+                            terminoJuego=true;
+                        }
+                        else {
                             if (j2.size()==1) {
                                 archivo.aniadirTexto("Gana Jugador 2, le quedó vivo el siguiente personaje:");
                             }
@@ -337,11 +342,8 @@ public class Main {
                             for (Personajes personaje : j2) {
                                 archivo.aniadirTexto("-   "+personaje.nombre+" con "+obtenerDosDecimales(personaje.salud)+" de salud.");
                             }
-                            controller.mostrarFelicitaciones(2);
-                            controller.aniadirTextoFelicitaciones(2);
-                            terminoJuego=true;
-                        }
-                        else {
+
+                            archivo.aniadirTexto("");
                             archivo.aniadirTexto("Muere "+j1.get(iJ1).apodo);
                             archivo.aniadirTexto("");
                             archivo.aniadirTexto("J2 recibe una recompensa de 10 puntos de salud!.");
