@@ -46,6 +46,7 @@ public class ArchivoManager {
                     String linea = scannerLog.nextLine();
                     System.out.println(linea);
                 }
+                scannerLog.close();
             }
         }
         catch (IOException e) {
@@ -88,6 +89,7 @@ public class ArchivoManager {
                     }
                 }
             }
+            reader.close();
         }
         catch (IOException e) {
             System.out.println("Ocurrió un error al BUSCAR el número del último juego.");
