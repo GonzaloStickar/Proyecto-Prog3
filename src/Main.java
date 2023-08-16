@@ -37,8 +37,6 @@ public class Main {
                         iniciarPartida(jugador1Personajes,jugador2Personajes);
                     }
                     case 2-> {
-                        iniciarPartidaLog();
-
                         Controller controller = new Controller();
                         ArrayList<Personajes> personajesIngresadoAManoP1 = new ArrayList<>();
                         ArrayList<Personajes> personajesIngresadoAManoP2 = new ArrayList<>();
@@ -64,6 +62,7 @@ public class Main {
                                 }
                             }
                         }
+                        iniciarPartidaLog();
                         iniciarPartida(personajesIngresadoAManoP1,personajesIngresadoAManoP2);
                     }
                     case 3-> archivo.mostrarContenidoLog();
