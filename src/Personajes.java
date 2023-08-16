@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public abstract class Personajes {
+public class Personajes {
 
     //Datos
     public String raza; // (humanos/orcos/elfos)

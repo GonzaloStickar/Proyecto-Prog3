@@ -1,7 +1,7 @@
 public class PersonajeOrco extends Personajes implements AtaquePersonaje {
     public PersonajeOrco(NombresApodos nombre, NombresApodos apodo) {
         super(nombre, apodo);
-        this.raza = this.getClass().getName();
+        this.raza = "Orco";
     }
 
     public PersonajeOrco(String nombre,
